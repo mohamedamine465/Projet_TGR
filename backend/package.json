@@ -1,0 +1,24 @@
+{
+  "name": "projet TGR",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohamedamine465/Projet_TGR.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohamedamine465/Projet_TGR/issues"
+  },
+  "homepage": "https://github.com/mohamedamine465/Projet_TGR#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
