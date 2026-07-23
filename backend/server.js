@@ -1,5 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
 import apiRouter from './src/index.js';
@@ -7,6 +8,10 @@ import apiRouter from './src/index.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors({
+  origin: 'http://localhost:5173', // URL par défaut de Vite
+  credentials: true // Très important pour autoriser les cookies (Refresh Token)
+}));
 app.use(express.json());
 app.use(cookieParser());
 
