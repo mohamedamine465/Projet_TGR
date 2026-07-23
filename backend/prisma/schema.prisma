@@ -21,6 +21,7 @@ model Utilisateur {
   dateCreation           DateTime  @default(now())
   dateDernierAcces       DateTime?
   dateModificationpasswd DateTime?
+  refreshToken           String?
 
   // Relations m:n avec Profil et TypeUtilisateur
   profils                Profil[]
