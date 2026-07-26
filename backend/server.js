@@ -1,3 +1,8 @@
+// Patch global pour sérialiser correctement les BigInt avec JSON.stringify (retournés par Prisma)
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};
+
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';

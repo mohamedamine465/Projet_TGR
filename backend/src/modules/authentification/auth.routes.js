@@ -28,6 +28,8 @@ router.post('/logout', authMiddleware, logout);
 // ROUTES PROTÉGÉES
 // ==========================================
 
+import { sendSuccess } from '../../shared/utils/responseHandler.js';
+
 // Route de base nécessitant juste d'être connecté (et d'avoir passé le first_login)
 router.get('/me', authMiddleware, (req, res) => {
   /*
@@ -37,7 +39,7 @@ router.get('/me', authMiddleware, (req, res) => {
       "bearerAuth": []
     }]
   */
-  res.json({ user: req.user });
+  sendSuccess(res, 200, "Profil récupéré avec succès", { user: req.user });
 });
 
 export default router;

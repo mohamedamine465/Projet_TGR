@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import authRoutes from './modules/authentification/auth.routes.js';
+import pretRoutes from './modules/pret/pret.routes.js';
+import adminRoutes from './modules/admin/admin.routes.js';
 
 const apiRouter = Router();
 
@@ -7,12 +9,13 @@ const apiRouter = Router();
 // MONTAGE DES MODULES DE L'API
 // ==========================================
 
-// Le module d'authentification est greffé ici. 
-// Son chemin final sera /api/auth puisque ce routeur est monté sur /api dans server.js
+// Authentification
 apiRouter.use('/auth', authRoutes);
 
-// Vous ajouterez vos autres modules ici à l'avenir :
-// apiRouter.use('/dette', detteRoutes);
-// apiRouter.use('/projets', projetRoutes);
+// Administration (Gestion des utilisateurs)
+apiRouter.use('/admin', adminRoutes);
+
+// Module Dette du Trésor
+apiRouter.use('/dette/prets', pretRoutes);
 
 export default apiRouter;
