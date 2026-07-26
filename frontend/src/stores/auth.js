@@ -38,9 +38,10 @@ export const useAuthStore = defineStore('auth', {
     async fetchUser() {
       try {
         const response = await api.get('/auth/me');
-        this.user = response.data.data.user;
+        this.user = response.data?.data?.user || response.data?.user;
       } catch (error) {
-        console.error("Impossible de récupérer l'utilisateur", error);
+        console.error("Impossible de récupérer l'utilisateur, session invalide.", error);
+        await this.logout();
       }
     },
     
