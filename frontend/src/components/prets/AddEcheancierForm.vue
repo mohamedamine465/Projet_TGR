@@ -136,7 +136,7 @@ const pretOptions = computed(() => {
 
 const loadPrets = async () => {
   try {
-    const res = await api.get('/dette/prets');
+    const res = await api.get('/dette-tresor/prets');
     prets.value = res.data.data;
   } catch (error) {
     errorMessage.value = "Erreur lors du chargement des prêts.";
@@ -155,7 +155,7 @@ const createEcheancier = async () => {
   successMessage.value = '';
 
   try {
-    const response = await api.post('/dette/prets/echeanciers', formData.value);
+    const response = await api.post('/dette-tresor/prets/echeanciers', formData.value);
     currentEcheancier.value = response.data.data;
     successMessage.value = "En-tête de l'échéancier créé. Vous pouvez maintenant ajouter les échéances.";
   } catch (error) {
@@ -170,7 +170,7 @@ const addEcheanceLigne = async () => {
   
   isAddingLigne.value = true;
   try {
-    const response = await api.post(`/dette/prets/echeanciers/${currentEcheancier.value.codeEcheancier}/lignes`, ligneData.value);
+    const response = await api.post(`/dette-tresor/prets/echeanciers/${currentEcheancier.value.codeEcheancier}/lignes`, ligneData.value);
     
     echeancesLignes.value.push(response.data.data);
     
