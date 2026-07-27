@@ -22,8 +22,16 @@
           </li>
 
           <!-- Autres sous-modules -->
-          <li>
-            <router-link to="/dette-tresor/avis-credit" class="nav-item" active-class="active">Avis de crédit</router-link>
+          <!-- Avis de crédit avec menu déroulant -->
+          <li class="nav-item-container">
+            <div class="nav-item" @click="toggleMenu('avisCredit')" :class="{ 'expanded': isExpanded('avisCredit') }">
+              <span>Avis de crédit</span>
+              <span class="arrow">{{ isExpanded('avisCredit') ? '▼' : '▶' }}</span>
+            </div>
+            <ul v-show="isExpanded('avisCredit')" class="nested-list">
+              <li><router-link to="/dette-tresor/avis-credits?tab=creer" class="nested-item">Ajouter un avis de crédit</router-link></li>
+              <li><router-link to="/dette-tresor/avis-credits?tab=consulter" class="nested-item">Consulter les avis de crédit</router-link></li>
+            </ul>
           </li>
           <li>
             <router-link to="/dette-tresor/ordres-paiement" class="nav-item" active-class="active">Ordres de paiement</router-link>

@@ -100,7 +100,7 @@ const preteurOptions = computed(() => {
 
 const loadPreteurs = async () => {
   try {
-    const res = await api.get('/dette/prets/preteurs');
+    const res = await api.get('/dette-tresor/prets/preteurs');
     preteurs.value = res.data.data;
   } catch (error) {
     console.error("Erreur chargement des prêteurs", error);
@@ -124,7 +124,7 @@ const submitForm = async () => {
       preteurId: Number(formData.value.preteurId)
     };
     
-    await api.post('/dette/prets', payload);
+    await api.post('/dette-tresor/prets', payload);
     successMessage.value = 'Le prêt a été créé avec succès !';
     
     // Réinitialiser le formulaire

@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import authRoutes from './modules/authentification/auth.routes.js';
-import pretRoutes from './modules/pret/pret.routes.js';
 import adminRoutes from './modules/admin/admin.routes.js';
+import pretRoutes from './modules/dette-tresor/pret/pret.routes.js';
+import avisCreditRoutes from './modules/dette-tresor/avis-credit/avis-credit.routes.js';
 
 const apiRouter = Router();
 
@@ -16,6 +17,7 @@ apiRouter.use('/auth', authRoutes);
 apiRouter.use('/admin', adminRoutes);
 
 // Module Dette du Trésor
-apiRouter.use('/dette/prets', pretRoutes);
+apiRouter.use('/dette-tresor/prets', pretRoutes);
+apiRouter.use('/dette-tresor/avis-credits', avisCreditRoutes);
 
 export default apiRouter;

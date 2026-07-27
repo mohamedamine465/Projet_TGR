@@ -95,7 +95,7 @@ const formData = ref({
 
 const loadParametrage = async () => {
   try {
-    const response = await api.get('/dette/prets/preteurs');
+    const response = await api.get('/dette-tresor/prets/preteurs');
     preteurs.value = response.data.data;
   } catch (error) {
     console.error(error);
@@ -126,7 +126,7 @@ const openEditModal = (preteur) => {
 const deletePreteur = async (codeCategorie) => {
   if (!confirm("Voulez-vous vraiment supprimer ce bailleur de fonds ? Cela risque d'échouer si des prêts y sont liés.")) return;
   try {
-    await api.delete(`/dette/prets/preteurs/${codeCategorie}`);
+    await api.delete(`/dette-tresor/prets/preteurs/${codeCategorie}`);
     preteurs.value = preteurs.value.filter(p => p.codeCategorie !== codeCategorie);
   } catch (error) {
     alert(error.response?.data?.message || "Erreur lors de la suppression.");
@@ -138,13 +138,13 @@ const submitPreteur = async () => {
   errorMessage.value = '';
   try {
     if (isEditing.value) {
-      const response = await api.put(`/dette/prets/preteurs/${formData.value.codeCategorie}`, formData.value);
+      const response = await api.put(`/dette-tresor/prets/preteurs/${formData.value.codeCategorie}`, formData.value);
       const index = preteurs.value.findIndex(p => p.codeCategorie === formData.value.codeCategorie);
       if (index !== -1) {
         preteurs.value[index] = response.data.data;
       }
     } else {
-      const response = await api.post('/dette/prets/preteurs', formData.value);
+      const response = await api.post('/dette-tresor/prets/preteurs', formData.value);
       preteurs.value.push(response.data.data);
     }
     showModal.value = false;

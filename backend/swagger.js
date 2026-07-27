@@ -16,6 +16,24 @@ const doc = {
       name: 'Authorization',
       description: 'Format attendu : Bearer <token>'
     }
+  },
+  security: [
+    { bearerAuth: [] }
+  ],
+  definitions: {
+    Pret: {
+      numEmprunt: "EMP-2026",
+      objet: "Projet Autoroute",
+      soldeCourant: 1500000,
+      preteurId: 1
+    },
+    AvisCredit: {
+      pretId: 100,
+      taux: 4.5,
+      montant: 50000,
+      dateEcheance: "2026-12-31",
+      datePEC: "2026-07-27"
+    }
   }
 };
 

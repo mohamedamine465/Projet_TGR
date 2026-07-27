@@ -295,21 +295,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/api/dette/prets/preteurs": {
-      "get": {
-        "description": "",
-        "responses": {
           "default": {
             "description": ""
           }
@@ -321,42 +306,289 @@
         ]
       }
     },
-    "/api/dette/prets/": {
+    "/api/admin/users": {
       "get": {
         "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       },
       "post": {
         "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       }
     },
-    "/api/dette/prets/{numPret}": {
+    "/api/admin/metadata": {
       "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/admin/users/{id}/reset-password": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/dette-tresor/prets/preteurs": {
+      "get": {
+        "tags": [
+          "Prêts"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Prêts"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/dette-tresor/prets/preteurs/{codeCategorie}": {
+      "put": {
+        "tags": [
+          "Prêts"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "codeCategorie",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Prêts"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "codeCategorie",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/dette-tresor/prets/echeanciers": {
+      "post": {
+        "tags": [
+          "Prêts"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pretId": {
+                  "example": "any"
+                },
+                "tranche": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/dette-tresor/prets/echeanciers/{codeEcheancier}/lignes": {
+      "post": {
+        "tags": [
+          "Prêts"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "codeEcheancier",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/dette-tresor/prets/": {
+      "get": {
+        "tags": [
+          "Prêts"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Prêts"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Données du prêt à créer",
+            "schema": {
+              "$ref": "#/definitions/Pret"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/dette-tresor/prets/{numPret}": {
+      "get": {
+        "tags": [
+          "Prêts"
+        ],
         "description": "",
         "parameters": [
           {
             "name": "numPret",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
             "type": "string"
           }
         ],
@@ -372,6 +604,9 @@
         ]
       },
       "put": {
+        "tags": [
+          "Prêts"
+        ],
         "description": "",
         "parameters": [
           {
@@ -379,20 +614,31 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Données du prêt à modifier",
+            "schema": {
+              "$ref": "#/definitions/Pret"
+            }
           }
         ],
         "responses": {
           "default": {
             "description": ""
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       },
       "delete": {
+        "tags": [
+          "Prêts"
+        ],
         "description": "",
         "parameters": [
           {
@@ -400,19 +646,200 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "default": {
             "description": ""
           }
-        },
-        "security": [
+        }
+      }
+    },
+    "/api/dette-tresor/avis-credits/": {
+      "get": {
+        "tags": [
+          "Avis de Crédit"
+        ],
+        "description": "",
+        "parameters": [
           {
-            "bearerAuth": []
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
-        ]
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Avis de Crédit"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Données de l'avis de crédit à créer",
+            "schema": {
+              "$ref": "#/definitions/AvisCredit"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/dette-tresor/avis-credits/{codeRecette}": {
+      "get": {
+        "tags": [
+          "Avis de Crédit"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "codeRecette",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Avis de Crédit"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "codeRecette",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Données de l'avis de crédit à modifier",
+            "schema": {
+              "$ref": "#/definitions/AvisCredit"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Avis de Crédit"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "codeRecette",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
       }
     }
-  }
+  },
+  "definitions": {
+    "Pret": {
+      "type": "object",
+      "properties": {
+        "numEmprunt": {
+          "type": "string",
+          "example": "EMP-2026"
+        },
+        "objet": {
+          "type": "string",
+          "example": "Projet Autoroute"
+        },
+        "soldeCourant": {
+          "type": "number",
+          "example": 1500000
+        },
+        "preteurId": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
+    "AvisCredit": {
+      "type": "object",
+      "properties": {
+        "pretId": {
+          "type": "number",
+          "example": 100
+        },
+        "taux": {
+          "type": "number",
+          "example": 4.5
+        },
+        "montant": {
+          "type": "number",
+          "example": 50000
+        },
+        "dateEcheance": {
+          "type": "string",
+          "example": "2026-12-31"
+        },
+        "datePEC": {
+          "type": "string",
+          "example": "2026-07-27"
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
 }

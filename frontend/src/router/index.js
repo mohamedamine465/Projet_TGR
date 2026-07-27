@@ -21,6 +21,11 @@ const router = createRouter({
           component: () => import('../views/dette-tresor/PretsView.vue')
         },
         {
+          path: 'dette-tresor/avis-credits',
+          name: 'avis-credits',
+          component: () => import('../views/dette-tresor/AvisCreditView.vue')
+        },
+        {
           path: 'admin/utilisateurs',
           name: 'admin-users',
           component: () => import('../views/AdminView.vue')

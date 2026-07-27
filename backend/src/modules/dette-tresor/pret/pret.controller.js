@@ -1,8 +1,9 @@
-import { sendSuccess, sendError } from '../../shared/utils/responseHandler.js';
+import { sendSuccess, sendError } from '../../../shared/utils/responseHandler.js';
 import * as PretService from './pret.service.js';
 
 export const getAll = async (req, res) => {
     try {
+        /* #swagger.tags = ['Prêts'] */
         const prets = await PretService.getAllPrets(req.query);
         sendSuccess(res, 200, "Liste des prêts récupérée avec succès", prets);
     } catch (error) {
@@ -12,6 +13,7 @@ export const getAll = async (req, res) => {
 
 export const getPreteurs = async (req, res) => {
     try {
+        /* #swagger.tags = ['Prêts'] */
         const preteurs = await PretService.getAllPreteurs();
         sendSuccess(res, 200, "Liste des prêteurs récupérée avec succès", preteurs);
     } catch (error) {
@@ -21,6 +23,7 @@ export const getPreteurs = async (req, res) => {
 
 export const createPreteur = async (req, res) => {
     try {
+        /* #swagger.tags = ['Prêts'] */
         const preteur = await PretService.createPreteur(req.body);
         sendSuccess(res, 201, "Prêteur créé avec succès", preteur);
     } catch (error) {
@@ -30,6 +33,7 @@ export const createPreteur = async (req, res) => {
 
 export const updatePreteur = async (req, res) => {
     try {
+        /* #swagger.tags = ['Prêts'] */
         const preteur = await PretService.updatePreteur(req.params.codeCategorie, req.body);
         sendSuccess(res, 200, "Prêteur mis à jour avec succès", preteur);
     } catch (error) {
@@ -39,6 +43,7 @@ export const updatePreteur = async (req, res) => {
 
 export const deletePreteur = async (req, res) => {
     try {
+        /* #swagger.tags = ['Prêts'] */
         await PretService.deletePreteur(req.params.codeCategorie);
         sendSuccess(res, 200, "Prêteur supprimé avec succès");
     } catch (error) {
@@ -48,6 +53,7 @@ export const deletePreteur = async (req, res) => {
 
 export const getById = async (req, res) => {
     try {
+        /* #swagger.tags = ['Prêts'] */
         /*
           #swagger.security = [{
             "bearerAuth": []
@@ -63,7 +69,13 @@ export const getById = async (req, res) => {
 
 export const create = async (req, res) => {
     try {
-        const userId = req.user.id; // Le token contient 'id', pas 'idUtilisateur'
+        /* #swagger.tags = ['Prêts'] */
+        /*  #swagger.parameters['body'] = {
+                in: 'body',
+                description: 'Données du prêt à créer',
+                schema: { $ref: '#/definitions/Pret' }
+        } */
+        const userId = req.user.idUtilisateur;
         const pret = await PretService.createPret(req.body, userId);
         sendSuccess(res, 201, "Prêt créé avec succès", pret);
     } catch (error) {
@@ -73,7 +85,13 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
     try {
-        const userId = req.user.id;
+        /* #swagger.tags = ['Prêts'] */
+        /*  #swagger.parameters['body'] = {
+                in: 'body',
+                description: 'Données du prêt à modifier',
+                schema: { $ref: '#/definitions/Pret' }
+        } */
+        const userId = req.user.idUtilisateur;
         const pret = await PretService.updatePret(req.params.numPret, req.body, userId);
         sendSuccess(res, 200, "Prêt mis à jour avec succès", pret);
     } catch (error) {
@@ -83,6 +101,7 @@ export const update = async (req, res) => {
 
 export const remove = async (req, res) => {
     try {
+        /* #swagger.tags = ['Prêts'] */
         await PretService.deletePret(req.params.numPret);
         sendSuccess(res, 200, "Prêt supprimé avec succès");
     } catch (error) {
@@ -92,6 +111,7 @@ export const remove = async (req, res) => {
 
 export const addEcheancier = async (req, res) => {
     try {
+        /* #swagger.tags = ['Prêts'] */
         const { pretId, tranche } = req.body;
         const echeancier = await PretService.createEcheancier(pretId, tranche);
         sendSuccess(res, 201, "Échéancier créé avec succès", echeancier);
@@ -102,6 +122,7 @@ export const addEcheancier = async (req, res) => {
 
 export const addEcheance = async (req, res) => {
     try {
+        /* #swagger.tags = ['Prêts'] */
         const { codeEcheancier } = req.params;
         const echeance = await PretService.createEcheance(codeEcheancier, req.body);
         sendSuccess(res, 201, "Échéance ajoutée avec succès", echeance);

@@ -210,7 +210,7 @@ const loadPrets = async () => {
     if (filters.value.objet) validFilters.objet = filters.value.objet;
     if (filters.value.soldeCourant) validFilters.soldeCourant = filters.value.soldeCourant;
 
-    const response = await api.get('/dette/prets', { params: validFilters });
+    const response = await api.get('/dette-tresor/prets', { params: validFilters });
     prets.value = response.data.data;
   } catch (err) {
     error.value = err.response?.data?.message || "Impossible de charger la liste des prêts.";
@@ -232,7 +232,7 @@ const deletePret = async (numPret) => {
   if (!confirm(`Voulez-vous vraiment supprimer le prêt N° ${numPret} ?`)) return;
   
   try {
-    await api.delete(`/dette/prets/${numPret}`);
+    await api.delete(`/dette-tresor/prets/${numPret}`);
     prets.value = prets.value.filter(p => p.numPret !== numPret);
   } catch (err) {
     const details = err.response?.data?.errors || err.response?.data?.message || err.message;
@@ -274,7 +274,7 @@ const submitEdit = async () => {
       preteurId: Number(editFormData.value.preteurId)
     };
     
-    const response = await api.put(`/dette/prets/${editFormData.value.numPret}`, payload);
+    const response = await api.put(`/dette-tresor/prets/${editFormData.value.numPret}`, payload);
     if (response.data.success) {
       showEditModal.value = false;
       loadPrets();
@@ -299,7 +299,7 @@ const openScheduleModal = async (numPret) => {
     loadingSchedule.value = true;
     currentSchedulePret.value = null;
     
-    const response = await api.get(`/dette/prets/${numPret}`);
+    const response = await api.get(`/dette-tresor/prets/${numPret}`);
     
     if (response.data && response.data.data) {
       currentSchedulePret.value = response.data.data;
