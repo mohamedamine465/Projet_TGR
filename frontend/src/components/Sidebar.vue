@@ -33,9 +33,19 @@
               <li><router-link to="/dette-tresor/avis-credits?tab=consulter" class="nested-item">Consulter les avis de crédit</router-link></li>
             </ul>
           </li>
-          <li>
-            <router-link to="/dette-tresor/ordres-paiement" class="nav-item" active-class="active">Ordres de paiement</router-link>
+          <!-- Ordres de paiement avec menu déroulant -->
+          <li class="nav-item-container">
+            <div class="nav-item" @click="toggleMenu('ordresPaiement')" :class="{ 'expanded': isExpanded('ordresPaiement') }">
+              <span>Ordres de paiement</span>
+              <span class="arrow">{{ isExpanded('ordresPaiement') ? '▼' : '▶' }}</span>
+            </div>
+            <ul v-show="isExpanded('ordresPaiement')" class="nested-list">
+              <li><router-link to="/dette-tresor/ordres-paiement?tab=creer" class="nested-item">Ajouter un ordre</router-link></li>
+              <li><router-link to="/dette-tresor/ordres-paiement?tab=consulter" class="nested-item">Consulter les ordres</router-link></li>
+              <li><router-link to="/dette-tresor/ordres-paiement?tab=generer" class="nested-item">Générer Lettre</router-link></li>
+            </ul>
           </li>
+          
           <li>
             <router-link to="/dette-tresor/avis-debit" class="nav-item" active-class="active">Avis de débit</router-link>
           </li>

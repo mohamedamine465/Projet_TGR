@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
 import { login, changePassword, refreshToken, logout } from './auth.controller.js';
-import { authMiddleware, requireType, requireProfil } from '../../middleware/auth.middleware.js';
+import { authMiddleware, requireType, requireProfil } from '#middleware/auth.middleware.js';
 
 const router = Router();
 
@@ -28,7 +28,7 @@ router.post('/logout', authMiddleware, logout);
 // ROUTES PROTÉGÉES
 // ==========================================
 
-import { sendSuccess } from '../../shared/utils/responseHandler.js';
+import { sendSuccess } from '#shared/utils/responseHandler.js';
 
 // Route de base nécessitant juste d'être connecté (et d'avoir passé le first_login)
 router.get('/me', authMiddleware, (req, res) => {

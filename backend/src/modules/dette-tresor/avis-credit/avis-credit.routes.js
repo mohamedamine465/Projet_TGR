@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { getAll, getById, create, update, remove } from './avis-credit.controller.js';
-import { authMiddleware } from '../../../middleware/auth.middleware.js';
+import { authMiddleware } from '#middleware/auth.middleware.js';
 
 const router = Router();
 

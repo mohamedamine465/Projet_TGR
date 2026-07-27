@@ -787,6 +787,107 @@
           }
         }
       }
+    },
+    "/api/dette-tresor/ordres-paiement/": {
+      "get": {
+        "tags": [
+          "Ordres de Paiement"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Ordres de Paiement"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Données de l'ordre de paiement à créer",
+            "schema": {
+              "$ref": "#/definitions/OrdrePaiement"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/dette-tresor/ordres-paiement/{numOrdre}": {
+      "get": {
+        "tags": [
+          "Ordres de Paiement"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "numOrdre",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Ordres de Paiement"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "numOrdre",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Données de l'ordre de paiement à modifier",
+            "schema": {
+              "$ref": "#/definitions/OrdrePaiement"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Ordres de Paiement"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "numOrdre",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -833,6 +934,43 @@
         "datePEC": {
           "type": "string",
           "example": "2026-07-27"
+        }
+      }
+    },
+    "OrdrePaiement": {
+      "type": "object",
+      "properties": {
+        "datePEC": {
+          "type": "string",
+          "example": "2026-07-27"
+        },
+        "dateEcheance": {
+          "type": "string",
+          "example": "2026-12-31"
+        },
+        "montantCapital": {
+          "type": "number",
+          "example": 100000
+        },
+        "montantInteret": {
+          "type": "number",
+          "example": 5000
+        },
+        "montantCommission": {
+          "type": "number",
+          "example": 200
+        },
+        "numlettre": {
+          "type": "number",
+          "example": 405
+        },
+        "pretId": {
+          "type": "string",
+          "example": "123456"
+        },
+        "echeanceId": {
+          "type": "number",
+          "example": 1
         }
       }
     }

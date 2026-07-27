@@ -1,4 +1,4 @@
-import { sendSuccess, sendError } from '../../../shared/utils/responseHandler.js';
+import { sendSuccess, sendError } from '#shared/utils/responseHandler.js';
 import * as PretService from './pret.service.js';
 
 export const getAll = async (req, res) => {

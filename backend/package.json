@@ -4,6 +4,11 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "imports": {
+    "#config/*": "./src/config/*",
+    "#middleware/*": "./src/middleware/*",
+    "#shared/*": "./src/shared/*"
+  },
   "scripts": {
     "dev": "node server.js",
     "swagger": "node swagger.js"
@@ -28,6 +33,7 @@
     "express": "^5.2.1",
     "express-rate-limit": "^8.6.0",
     "jsonwebtoken": "^9.0.3",
+    "pdfkit": "^0.19.1",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1"
   },

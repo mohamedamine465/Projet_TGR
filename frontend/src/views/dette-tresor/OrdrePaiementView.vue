@@ -1,7 +1,7 @@
 <template>
   <div class="module-view">
     <div class="tabs-header">
-      <h2>Gestion des Prêts</h2>
+      <h2>Gestion des Ordres de Paiement</h2>
       <div class="tabs">
         <button 
           v-for="tab in tabs" 
@@ -16,23 +16,17 @@
     
     <div class="tab-content">
       <div v-if="activeTab === 'creer'" class="tab-pane">
-        <h3>Création d'un nouveau contrat de prêt</h3>
-        <CreatePretForm />
-      </div>
-      
-      <div v-if="activeTab === 'echeancier'" class="tab-pane">
-        <h3>Ajouter un échéancier</h3>
-        <AddEcheancierForm />
+        <h3>Création d'un ordre de paiement</h3>
+        <CreateOrdrePaiementForm @created="onOrdreCreated" />
       </div>
       
       <div v-if="activeTab === 'consulter'" class="tab-pane">
-        <h3>Liste des contrats de prêts</h3>
-        <ListPret />
+        <h3>Liste des ordres de paiement</h3>
+        <ListOrdrePaiement />
       </div>
       
-      <div v-if="activeTab === 'param'" class="tab-pane">
-        <h3>Paramétrage du module</h3>
-        <ParametragePret />
+      <div v-if="activeTab === 'generer'" class="tab-pane">
+        <GenererLettre />
       </div>
     </div>
   </div>
@@ -41,24 +35,21 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import CreatePretForm from '@/components/prets/CreatePretForm.vue';
-import ListPret from '@/components/prets/ListPret.vue';
-import AddEcheancierForm from '@/components/prets/AddEcheancierForm.vue';
-import ParametragePret from '@/components/prets/ParametragePret.vue';
+import CreateOrdrePaiementForm from '@/components/ordre-paiement/CreateOrdrePaiementForm.vue';
+import ListOrdrePaiement from '@/components/ordre-paiement/ListOrdrePaiement.vue';
+import GenererLettre from '@/components/ordre-paiement/GenererLettre.vue';
 
 const route = useRoute();
 const router = useRouter();
 
 const tabs = [
-  { id: 'creer', label: 'Créer prêt' },
-  { id: 'echeancier', label: 'Ajouter échéancier' },
-  { id: 'consulter', label: 'Consulter les prêts' },
-  { id: 'param', label: 'Paramétrage' }
+  { id: 'creer', label: 'Ajouter un ordre de paiement' },
+  { id: 'consulter', label: 'Consulter les ordres de paiement' },
+  { id: 'generer', label: 'Générer Lettre de règlement' }
 ];
 
 const activeTab = ref('creer');
 
-// Synchroniser l'onglet avec l'URL (ex: ?tab=echeancier)
 onMounted(() => {
   if (route.query.tab) {
     activeTab.value = route.query.tab;
@@ -71,10 +62,13 @@ watch(() => route.query.tab, (newTab) => {
   }
 });
 
-// Quand on clique sur un onglet dans la vue, mettre à jour l'URL
 const setActiveTab = (tabId) => {
   activeTab.value = tabId;
   router.push({ query: { ...route.query, tab: tabId } });
+};
+
+const onOrdreCreated = () => {
+  setActiveTab('consulter');
 };
 </script>
 
@@ -128,7 +122,7 @@ const setActiveTab = (tabId) => {
   color: #ea580c;
   border-color: #e2e8f0;
   border-bottom: 1px solid #ffffff;
-  margin-bottom: -1px; /* Overlap border */
+  margin-bottom: -1px;
 }
 
 .tab-content {

@@ -33,6 +33,16 @@ const doc = {
       montant: 50000,
       dateEcheance: "2026-12-31",
       datePEC: "2026-07-27"
+    },
+    OrdrePaiement: {
+      datePEC: "2026-07-27",
+      dateEcheance: "2026-12-31",
+      montantCapital: 100000,
+      montantInteret: 5000,
+      montantCommission: 200,
+      numlettre: 405,
+      pretId: "123456",
+      echeanceId: 1
     }
   }
 };
