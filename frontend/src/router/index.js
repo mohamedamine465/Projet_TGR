@@ -26,6 +26,11 @@ const router = createRouter({
           component: () => import('../views/dette-tresor/AvisCreditView.vue')
         },
         {
+          path: 'dette-tresor/ordres-paiement',
+          name: 'ordres-paiement',
+          component: () => import('../views/dette-tresor/OrdrePaiementView.vue')
+        },
+        {
           path: 'admin/utilisateurs',
           name: 'admin-users',
           component: () => import('../views/AdminView.vue')
