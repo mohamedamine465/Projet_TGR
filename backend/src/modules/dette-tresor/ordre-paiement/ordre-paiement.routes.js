@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { getAll, getById, create, update, remove, generateLettrePdf } from './ordre-paiement.controller.js';
-import { authMiddleware } from '../../../middleware/auth.middleware.js';
+import { authMiddleware } from '#middleware/auth.middleware.js';
 
 const router = Router();
 

@@ -1,4 +1,4 @@
-import { sendSuccess, sendError } from '../../shared/utils/responseHandler.js';
+import { sendSuccess, sendError } from '#shared/utils/responseHandler.js';
 import * as AdminService from './admin.service.js';
 
 export const getUsers = async (req, res) => {

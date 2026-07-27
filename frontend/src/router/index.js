@@ -7,33 +7,33 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue')
+      component: () => import('@/views/LoginView.vue')
     },
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/DashboardView.vue'),
+      component: () => import('@/views/DashboardView.vue'),
       meta: { requiresAuth: true },
       children: [
         {
           path: 'dette-tresor/prets',
           name: 'prets',
-          component: () => import('../views/dette-tresor/PretsView.vue')
+          component: () => import('@/views/dette-tresor/PretsView.vue')
         },
         {
           path: 'dette-tresor/avis-credits',
           name: 'avis-credits',
-          component: () => import('../views/dette-tresor/AvisCreditView.vue')
+          component: () => import('@/views/dette-tresor/AvisCreditView.vue')
         },
         {
           path: 'dette-tresor/ordres-paiement',
           name: 'ordres-paiement',
-          component: () => import('../views/dette-tresor/OrdrePaiementView.vue')
+          component: () => import('@/views/dette-tresor/OrdrePaiementView.vue')
         },
         {
           path: 'admin/utilisateurs',
           name: 'admin-users',
-          component: () => import('../views/AdminView.vue')
+          component: () => import('@/views/AdminView.vue')
         }
       ]
     }

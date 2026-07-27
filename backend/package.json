@@ -4,6 +4,11 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "imports": {
+    "#config/*": "./src/config/*",
+    "#middleware/*": "./src/middleware/*",
+    "#shared/*": "./src/shared/*"
+  },
   "scripts": {
     "dev": "node server.js",
     "swagger": "node swagger.js"

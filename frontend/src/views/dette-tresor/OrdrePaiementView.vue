@@ -35,9 +35,9 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import CreateOrdrePaiementForm from '../../components/ordre-paiement/CreateOrdrePaiementForm.vue';
-import ListOrdrePaiement from '../../components/ordre-paiement/ListOrdrePaiement.vue';
-import GenererLettre from '../../components/ordre-paiement/GenererLettre.vue';
+import CreateOrdrePaiementForm from '@/components/ordre-paiement/CreateOrdrePaiementForm.vue';
+import ListOrdrePaiement from '@/components/ordre-paiement/ListOrdrePaiement.vue';
+import GenererLettre from '@/components/ordre-paiement/GenererLettre.vue';
 
 const route = useRoute();
 const router = useRouter();

@@ -31,8 +31,8 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import CreateAvisCreditForm from '../../components/avis-credit/CreateAvisCreditForm.vue';
-import ListAvisCredit from '../../components/avis-credit/ListAvisCredit.vue';
+import CreateAvisCreditForm from '@/components/avis-credit/CreateAvisCreditForm.vue';
+import ListAvisCredit from '@/components/avis-credit/ListAvisCredit.vue';
 
 const route = useRoute();
 const router = useRouter();

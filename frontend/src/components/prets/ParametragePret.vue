@@ -74,7 +74,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import api from '../../services/api';
+import api from '@/services/api';
 import BaseButton from '../common/BaseButton.vue';
 import BaseInput from '../common/BaseInput.vue';
 

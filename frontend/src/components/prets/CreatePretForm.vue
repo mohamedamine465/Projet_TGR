@@ -75,7 +75,7 @@ import { ref, onMounted, computed } from 'vue';
 import BaseInput from '../common/BaseInput.vue';
 import BaseSelect from '../common/BaseSelect.vue';
 import BaseButton from '../common/BaseButton.vue';
-import api from '../../services/api';
+import api from '@/services/api';
 
 const formData = ref({
   numPret: '',

@@ -41,10 +41,10 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import CreatePretForm from '../../components/prets/CreatePretForm.vue';
-import ListPret from '../../components/prets/ListPret.vue';
-import AddEcheancierForm from '../../components/prets/AddEcheancierForm.vue';
-import ParametragePret from '../../components/prets/ParametragePret.vue';
+import CreatePretForm from '@/components/prets/CreatePretForm.vue';
+import ListPret from '@/components/prets/ListPret.vue';
+import AddEcheancierForm from '@/components/prets/AddEcheancierForm.vue';
+import ParametragePret from '@/components/prets/ParametragePret.vue';
 
 const route = useRoute();
 const router = useRouter();

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { getAll, getPreteurs, createPreteur, updatePreteur, deletePreteur, getById, create, update, remove, addEcheancier, addEcheance } from './pret.controller.js';
-import { authMiddleware } from '../../../middleware/auth.middleware.js';
+import { authMiddleware } from '#middleware/auth.middleware.js';
 
 const router = Router();
 

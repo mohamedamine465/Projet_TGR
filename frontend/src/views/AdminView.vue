@@ -125,10 +125,10 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import api from '../services/api';
-import BaseInput from '../components/common/BaseInput.vue';
-import BaseSelect from '../components/common/BaseSelect.vue';
-import BaseButton from '../components/common/BaseButton.vue';
+import api from '@/services/api';
+import BaseInput from '@/components/common/BaseInput.vue';
+import BaseSelect from '@/components/common/BaseSelect.vue';
+import BaseButton from '@/components/common/BaseButton.vue';
 
 const activeTab = ref('list');
 const users = ref([]);

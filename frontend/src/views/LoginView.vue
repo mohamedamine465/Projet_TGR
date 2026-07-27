@@ -55,7 +55,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
-import api from '../services/api';
+import api from '@/services/api';
 
 const router = useRouter();
 const authStore = useAuthStore();

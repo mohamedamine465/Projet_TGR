@@ -1,4 +1,4 @@
-import { sendSuccess, sendError } from '../../../shared/utils/responseHandler.js';
+import { sendSuccess, sendError } from '#shared/utils/responseHandler.js';
 import * as OrdrePaiementService from './ordre-paiement.service.js';
 
 export const getAll = async (req, res) => {
