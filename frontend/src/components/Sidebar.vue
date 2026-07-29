@@ -45,9 +45,17 @@
               <li><router-link to="/dette-tresor/ordres-paiement?tab=generer" class="nested-item">Générer Lettre</router-link></li>
             </ul>
           </li>
-          
-          <li>
-            <router-link to="/dette-tresor/avis-debit" class="nav-item" active-class="active">Avis de débit</router-link>
+
+          <!-- Avis de débit avec menu déroulant -->
+          <li class="nav-item-container">
+            <div class="nav-item" @click="toggleMenu('avisDebit')" :class="{ 'expanded': isExpanded('avisDebit') }">
+              <span>Avis de débit</span>
+              <span class="arrow">{{ isExpanded('avisDebit') ? '▼' : '▶' }}</span>
+            </div>
+            <ul v-show="isExpanded('avisDebit')" class="nested-list">
+              <li><router-link to="/dette-tresor/avis-debits?tab=creer" class="nested-item">Ajouter un avis</router-link></li>
+              <li><router-link to="/dette-tresor/avis-debits?tab=consulter" class="nested-item">Consulter les avis</router-link></li>
+            </ul>
           </li>
         </ul>
       </li>

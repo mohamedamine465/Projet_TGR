@@ -34,6 +34,11 @@ const router = createRouter({
           path: 'admin/utilisateurs',
           name: 'admin-users',
           component: () => import('@/views/AdminView.vue')
+        },
+        {
+          path: 'dette-tresor/avis-debits',
+          name: 'avis-debits',
+          component: () => import('@/views/dette-tresor/AvisDebitView.vue')
         }
       ]
     }
