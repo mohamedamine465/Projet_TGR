@@ -35,14 +35,25 @@ const doc = {
       datePEC: "2026-07-27"
     },
     OrdrePaiement: {
-      datePEC: "2026-07-27",
-      dateEcheance: "2026-12-31",
-      montantCapital: 100000,
-      montantInteret: 5000,
-      montantCommission: 200,
+      datePEC: "2024-05-10T00:00:00Z",
+      dateEcheance: "2024-06-10T00:00:00Z",
+      montantCapital: 3000,
+      montantInteret: 400,
+      montantCommission: 60,
       numlettre: 405,
-      pretId: "123456",
+      pretId: 100200,
       echeanceId: 1
+    },
+    AvisDebit: {
+      datePEC: "2024-05-15T00:00:00Z",
+      dateEcheance: "2024-06-15T00:00:00Z",
+      pretId: 100200,
+      dateDepense: "2024-05-16T00:00:00Z",
+      taux: 2.5,
+      montantCapital: 5000,
+      montantInteret: 250,
+      montantCommission: 50,
+      type: "Frais bancaires"
     }
   }
 };

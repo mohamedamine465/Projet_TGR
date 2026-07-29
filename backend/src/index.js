@@ -3,8 +3,8 @@ import authRoutes from './modules/authentification/auth.routes.js';
 import adminRoutes from './modules/admin/admin.routes.js';
 import pretRoutes from './modules/dette-tresor/pret/pret.routes.js';
 import avisCreditRoutes from './modules/dette-tresor/avis-credit/avis-credit.routes.js';
-
 import ordrePaiementRoutes from './modules/dette-tresor/ordre-paiement/ordre-paiement.routes.js';
+import avisDebitRoutes from './modules/dette-tresor/avis-debit/avis-debit.routes.js';
 
 const apiRouter = Router();
 
@@ -22,5 +22,6 @@ apiRouter.use('/admin', adminRoutes);
 apiRouter.use('/dette-tresor/prets', pretRoutes);
 apiRouter.use('/dette-tresor/avis-credits', avisCreditRoutes);
 apiRouter.use('/dette-tresor/ordres-paiement', ordrePaiementRoutes);
+apiRouter.use('/dette-tresor/avis-debits', avisDebitRoutes);
 
 export default apiRouter;
