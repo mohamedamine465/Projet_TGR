@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { prisma } from '#config/db.js';
-import { default as app } from '../app.js';
+import { default as app } from '../../app.js';
 
 describe('Avis de Débit - Integration Tests avec Vraie BDD', () => {
   let pretId = 12345n;

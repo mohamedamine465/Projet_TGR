@@ -21,7 +21,7 @@ export const getMetadata = async (req, res) => {
 
 export const createUser = async (req, res) => {
     try {
-        const result = await AdminService.createUser(req.body);
+        const result = await AdminService.createUser(req.body, req.user);
         sendSuccess(res, 201, "Utilisateur créé avec succès", result);
     } catch (error) {
         sendError(res, 400, "Erreur lors de la création de l'utilisateur", error.message);
