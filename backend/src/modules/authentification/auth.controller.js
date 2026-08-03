@@ -45,33 +45,30 @@ export const login = async (req, res) => {
     #swagger.responses[400] = { description: 'Paramètres manquants.' }
     #swagger.responses[401] = { description: 'Identifiants incorrects.' }
   */
-  try {
-    const { email, password } = req.body;
-    
-    if (!email || !password) {
-      return sendError(res, 400, 'Email et mot de passe sont requis.');
-    }
 
-    const result = await loginService(email, password);
+const { email, password } = req.body;
 
-    // Cas spécifique TGR : l'utilisateur doit changer son mdp
-    if (result.first_login) {
-      return sendError(res, 403, result.message, { first_login: result.first_login, email: result.email }); 
-    }
+if (!email || !password) {
+  return sendError(res, 400, 'Email et mot de passe sont requis.');
+}
 
-    const { refreshToken, ...responseResult } = result;
+const result = await loginService(email, password);
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours
-    });
+// Cas spécifique TGR : l'utilisateur doit changer son mdp
+if (result.first_login) {
+  return sendError(res, 403, result.message, { first_login: result.first_login, email: result.email }); 
+}
 
-    return sendSuccess(res, 200, 'Connexion réussie', responseResult);
-  } catch (error) {
-    return sendError(res, 401, error.message);
-  }
+const { refreshToken, ...responseResult } = result;
+
+res.cookie('refreshToken', refreshToken, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'strict',
+  maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours
+});
+
+return sendSuccess(res, 200, 'Connexion réussie', responseResult);
 };
 
 /**
@@ -99,25 +96,22 @@ export const changePassword = async (req, res) => {
     #swagger.responses[200] = { description: 'Mot de passe modifié avec succès.' }
     #swagger.responses[400] = { description: 'Erreur de validation des champs ou mot de passe identique.' }
   */
-  try {
-    // Peut être appelé de manière anonyme (lors de la première connexion) ou via JWT (req.user)
-    const { email, currentPassword, newPassword } = req.body;
-    const targetEmail = req.user ? req.user.email : email;
 
-    if (!targetEmail || !currentPassword || !newPassword) {
-      return sendError(res, 400, 'Email, mot de passe actuel et nouveau mot de passe sont requis.');
-    }
+// Peut être appelé de manière anonyme (lors de la première connexion) ou via JWT (req.user)
+const { email, currentPassword, newPassword } = req.body;
+const targetEmail = req.user ? req.user.email : email;
 
-    if (currentPassword === newPassword) {
-      return sendError(res, 400, 'Le nouveau mot de passe doit être différent de l\'ancien.');
-    }
+if (!targetEmail || !currentPassword || !newPassword) {
+  return sendError(res, 400, 'Email, mot de passe actuel et nouveau mot de passe sont requis.');
+}
 
-    await changePasswordService(targetEmail, currentPassword, newPassword);
+if (currentPassword === newPassword) {
+  return sendError(res, 400, 'Le nouveau mot de passe doit être différent de l\'ancien.');
+}
 
-    return sendSuccess(res, 200, 'Mot de passe modifié avec succès.');
-  } catch (error) {
-    return sendError(res, 400, error.message);
-  }
+await changePasswordService(targetEmail, currentPassword, newPassword);
+
+return sendSuccess(res, 200, 'Mot de passe modifié avec succès.');
 };
 
 /**
@@ -130,25 +124,22 @@ export const refreshToken = async (req, res) => {
     #swagger.summary = 'Rafraîchir le token d\'accès'
     #swagger.description = 'Utilise le refresh token stocké dans les cookies (HttpOnly) pour obtenir un nouveau token.'
   */
-  try {
-    const oldRefreshToken = req.cookies?.refreshToken;
-    if (!oldRefreshToken) {
-      return sendError(res, 401, 'Refresh token manquant.');
-    }
 
-    const result = await refreshTokenService(oldRefreshToken);
+const oldRefreshToken = req.cookies?.refreshToken;
+if (!oldRefreshToken) {
+  return sendError(res, 401, 'Refresh token manquant.');
+}
 
-    res.cookie('refreshToken', result.refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+const result = await refreshTokenService(oldRefreshToken);
 
-    return sendSuccess(res, 200, 'Token rafraîchi avec succès', { token: result.token });
-  } catch (error) {
-    return sendError(res, 403, error.message);
-  }
+res.cookie('refreshToken', result.refreshToken, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'strict',
+  maxAge: 7 * 24 * 60 * 60 * 1000
+});
+
+return sendSuccess(res, 200, 'Token rafraîchi avec succès', { token: result.token });
 };
 
 /**
@@ -164,13 +155,10 @@ export const logout = async (req, res) => {
       "bearerAuth": []
     }]
   */
-  try {
-    if (req.user) {
-      await logoutService(req.user.idUtilisateur);
-    }
-    res.clearCookie('refreshToken');
-    return sendSuccess(res, 200, 'Déconnexion réussie.');
-  } catch (error) {
-    return sendError(res, 500, error.message);
-  }
+
+if (req.user) {
+  await logoutService(req.user.idUtilisateur);
+}
+res.clearCookie('refreshToken');
+return sendSuccess(res, 200, 'Déconnexion réussie.');
 };

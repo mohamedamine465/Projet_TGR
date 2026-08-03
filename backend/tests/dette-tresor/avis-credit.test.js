@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { prisma } from '#config/db.js';
-import { default as app } from '../app.js';
+import { default as app } from '../../app.js';
 
 describe('Avis de Crédit - Integration Tests (Vraie BDD)', () => {
   let pretId = 101n;

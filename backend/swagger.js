@@ -54,6 +54,32 @@ const doc = {
       montantInteret: 250,
       montantCommission: 50,
       type: "Frais bancaires"
+    },
+    Projet: {
+      type: "DON",
+      gestion: 2025,
+      datePEC: "2025-01-01",
+      numDon: 202,
+      objetDon: "Don pour santé",
+      numContrat: 303,
+      preteurId: "BAM"
+    },
+    Approvisionnement: {
+      projetId: 1,
+      datePEC: "2025-01-01",
+      dateEcheance: "2025-02-01",
+      montantApprovis: 10000,
+      cumulApprovis: 2,
+      numAvance: 2,
+      reference: "REF-999"
+    },
+    AvisOperation: {
+      projetId: 1,
+      datePEC: "2025-01-01",
+      dateEcheance: "2025-02-01",
+      numFacture: 98765,
+      montantDispo: 50000,
+      partFinancee: 10000
     }
   }
 };

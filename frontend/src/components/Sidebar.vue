@@ -4,7 +4,7 @@
       <h3>Modules</h3>
     </div>
     <ul class="nav-list">
-      <li v-if="hasProfil('Dette du trésor')" class="nav-module">
+      <li v-if="hasProfil('Dette du Tresor')" class="nav-module">
         <div class="module-title">Dette du trésor</div>
         <ul class="sub-nav-list">
           <!-- Prêts avec menu déroulant -->
@@ -53,8 +53,45 @@
               <span class="arrow">{{ isExpanded('avisDebit') ? '▼' : '▶' }}</span>
             </div>
             <ul v-show="isExpanded('avisDebit')" class="nested-list">
-              <li><router-link to="/dette-tresor/avis-debits?tab=creer" class="nested-item">Ajouter un avis</router-link></li>
-              <li><router-link to="/dette-tresor/avis-debits?tab=consulter" class="nested-item">Consulter les avis</router-link></li>
+              <li><router-link to="/dette-tresor/avis-debits?tab=creer" class="nested-item" :class="{ active: isActiveTab('/dette-tresor/avis-debits', 'creer') }">Ajouter un avis</router-link></li>
+              <li><router-link to="/dette-tresor/avis-debits?tab=consulter" class="nested-item" :class="{ active: isActiveTab('/dette-tresor/avis-debits', 'consulter') }">Consulter les avis</router-link></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Programme MEDA et fonds de roulement -->
+      <li v-if="hasProfil('Projets')" class="nav-module">
+        <div class="module-title">Programme MEDA et FR</div>
+        <ul class="sub-nav-list">
+          <li class="nav-item-container">
+            <div class="nav-item" @click="toggleMenu('projets')" :class="{ 'expanded': isExpanded('projets') }">
+              <span>Projets</span>
+              <span class="arrow">{{ isExpanded('projets') ? '▼' : '▶' }}</span>
+            </div>
+            <ul v-show="isExpanded('projets')" class="nested-list">
+              <li><router-link to="/programme-meda/projets?tab=creer" class="nested-item" :class="{ active: isActiveTab('/programme-meda/projets', 'creer') }">Ajouter un projet</router-link></li>
+              <li><router-link to="/programme-meda/projets?tab=consulter" class="nested-item" :class="{ active: isActiveTab('/programme-meda/projets', 'consulter') }">Consulter les projets</router-link></li>
+            </ul>
+          </li>
+          <li class="nav-item-container">
+            <div class="nav-item" @click="toggleMenu('approvisionnements')" :class="{ 'expanded': isExpanded('approvisionnements') }">
+              <span>Encaissements (Avances)</span>
+              <span class="arrow">{{ isExpanded('approvisionnements') ? '▼' : '▶' }}</span>
+            </div>
+            <ul v-show="isExpanded('approvisionnements')" class="nested-list">
+              <li><router-link to="/programme-meda/approvisionnements?tab=creer" class="nested-item" :class="{ active: isActiveTab('/programme-meda/approvisionnements', 'creer') }">Ajouter une avance</router-link></li>
+              <li><router-link to="/programme-meda/approvisionnements?tab=consulter" class="nested-item" :class="{ active: isActiveTab('/programme-meda/approvisionnements', 'consulter') }">Consulter les avances</router-link></li>
+            </ul>
+          </li>
+          <li class="nav-item-container">
+            <div class="nav-item" @click="toggleMenu('avisOperations')" :class="{ 'expanded': isExpanded('avisOperations') }">
+              <span>Emploi des avances</span>
+              <span class="arrow">{{ isExpanded('avisOperations') ? '▼' : '▶' }}</span>
+            </div>
+            <ul v-show="isExpanded('avisOperations')" class="nested-list">
+              <li><router-link to="/programme-meda/avis-operations?tab=creer" class="nested-item" :class="{ active: isActiveTab('/programme-meda/avis-operations', 'creer') }">Justifier une dépense</router-link></li>
+              <li><router-link to="/programme-meda/avis-operations?tab=consulter" class="nested-item" :class="{ active: isActiveTab('/programme-meda/avis-operations', 'consulter') }">Consulter les pièces</router-link></li>
             </ul>
           </li>
         </ul>
@@ -77,13 +114,16 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 
 const authStore = useAuthStore();
-const expandedMenus = ref(['prets']); // 'prets' est ouvert par défaut
+const route = useRoute();
+const expandedMenus = ref(['prets', 'projets', 'approvisionnements', 'avisOperations']); 
 
 const hasProfil = (profilName) => {
-  return true; // Simplifié pour le moment
+  if (!authStore.user) return false;
+  return authStore.user.profils?.some(p => p.libelleProfil === profilName) || false;
 };
 
 const toggleMenu = (menu) => {
@@ -95,6 +135,10 @@ const toggleMenu = (menu) => {
 };
 
 const isExpanded = (menu) => expandedMenus.value.includes(menu);
+
+const isActiveTab = (path, tab) => {
+  return route.path === path && route.query.tab === tab;
+};
 </script>
 
 <style scoped>
@@ -202,8 +246,8 @@ const isExpanded = (menu) => expandedMenus.value.includes(menu);
   color: #ffffff;
 }
 
-/* On utilise la classe injectée par Vue Router quand l'URL correspond exactement ou partiellement via les query (besoin d'astuce si on veut activer via query) */
-.router-link-exact-active.nested-item {
+/* On utilise la classe injectée par Vue Router ou la classe active custom via route.query */
+.router-link-exact-active.nested-item, .nested-item.active {
   color: #ea580c;
   font-weight: 600;
 }
