@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -24,16 +23,16 @@ model Utilisateur {
   refreshToken           String?
 
   // Relations m:n avec Profil et TypeUtilisateur
-  profils                Profil[]
-  
+  profils Profil[]
+
   typeUtilisateurId Int
   typeUtilisateur   TypeUtilisateur @relation(fields: [typeUtilisateurId], references: [idType])
   // Relations de traçabilité (Audit)
-  recettesGerees         Recette[]       @relation("RecetteGestion")
-  depensesGerees         Depense[]       @relation("DepenseGestion")
-  ordresGeres            OrdrePaiement[] @relation("OPGestion")
-  pretsSupervises        Pret[]          @relation("PretSupervision")
-  projetsSupervises      Projet[]        @relation("ProjetSupervision")
+  recettesGerees    Recette[]       @relation("RecetteGestion")
+  depensesGerees    Depense[]       @relation("DepenseGestion")
+  ordresGeres       OrdrePaiement[] @relation("OPGestion")
+  pretsSupervises   Pret[]          @relation("PretSupervision")
+  projetsSupervises Projet[]        @relation("ProjetSupervision")
 }
 
 model Profil {
@@ -64,35 +63,35 @@ model Adresse {
   idAdresse Int     @id @default(autoincrement())
   adresse   String
   preteurId Int
-  preteur   Preteur @relation(fields: [preteurId], references: [codeCategorie])
+  preteur   Preteur @relation(fields: [preteurId], references: [codeCategorie], onDelete: Cascade)
 }
 
 model Pret {
-  numPret       BigInt   @id
-  dateCreation  DateTime
-  objet         String
-  soldeCourant  BigInt
-  numEmprunt    String
-  
-  preteurId     Int
-  preteur       Preteur  @relation(fields: [preteurId], references: [codeCategorie])
+  numPret      BigInt   @id
+  dateCreation DateTime
+  objet        String
+  soldeCourant BigInt
+  numEmprunt   String
+
+  preteurId Int
+  preteur   Preteur @relation(fields: [preteurId], references: [codeCategorie])
 
   // Relations d'intégration
-  depenses      Depense[]
-  ordres        OrdrePaiement[]
-  recettes      Recette[]
-  echeanciers   Echeancier[]
+  depenses    Depense[]
+  ordres      OrdrePaiement[]
+  recettes    Recette[]
+  echeanciers Echeancier[]
 
   // Traçabilité
-  updatedById   Int?
-  updatedBy     Utilisateur? @relation("PretSupervision", fields: [updatedById], references: [idUtilisateur])
+  updatedById Int?
+  updatedBy   Utilisateur? @relation("PretSupervision", fields: [updatedById], references: [idUtilisateur])
 }
 
 model Echeancier {
   codeEcheancier Int        @id @default(autoincrement())
   tranche        Int
   pretId         BigInt
-  pret           Pret       @relation(fields: [pretId], references: [numPret])
+  pret           Pret       @relation(fields: [pretId], references: [numPret], onDelete: Cascade)
   echeances      Echeance[]
 }
 
@@ -104,11 +103,11 @@ model Echeance {
   montantCommission Float
   statut            String
 
-  echeancierId      Int
-  echeancier        Echeancier @relation(fields: [echeancierId], references: [codeEcheancier])
+  echeancierId Int
+  echeancier   Echeancier @relation(fields: [echeancierId], references: [codeEcheancier], onDelete: Cascade)
 
   // Lien avec l'ordre de paiement (Validation)
-  ordrePaiement     OrdrePaiement?
+  ordrePaiement OrdrePaiement?
 }
 
 // ==========================================
@@ -116,9 +115,9 @@ model Echeance {
 // ==========================================
 
 model Projet {
-  idProjet    Int        @id @default(autoincrement())
-  gestion     Int
-  datePEC     DateTime
+  idProjet Int      @id @default(autoincrement())
+  gestion  Int
+  datePEC  DateTime
 
   // LIAISONS DE DÉLÉGATION (Héritage 1:1)
   don           Don?
@@ -135,23 +134,23 @@ model Projet {
 }
 
 model Don {
-  idDon       Int    @id @default(autoincrement())
-  numDon      Int
-  objet       String
-  
-  projetId    Int    @unique
-  projet      Projet @relation(fields: [projetId], references: [idProjet], onDelete: Cascade)
+  idDon  Int    @id @default(autoincrement())
+  numDon Int
+  objet  String
+
+  projetId Int    @unique
+  projet   Projet @relation(fields: [projetId], references: [idProjet], onDelete: Cascade)
 }
 
 model FondRoulement {
-  idFond      Int    @id @default(autoincrement())
-  numContrat  Int
-  
-  projetId    Int    @unique
-  projet      Projet @relation(fields: [projetId], references: [idProjet], onDelete: Cascade)
+  idFond     Int @id @default(autoincrement())
+  numContrat Int
 
-  preteurId   String
-  preteur     PreteurProjet @relation(fields: [preteurId], references: [codePreteur])
+  projetId Int    @unique
+  projet   Projet @relation(fields: [projetId], references: [idProjet], onDelete: Cascade)
+
+  preteurId String
+  preteur   PreteurProjet @relation(fields: [preteurId], references: [codePreteur])
 }
 
 model Attestation {
@@ -167,12 +166,12 @@ model Attestation {
   numVisa       Int
   type          String
 
-  projetId      Int      @unique
-  projet        Projet   @relation(fields: [projetId], references: [idProjet])
+  projetId Int    @unique
+  projet   Projet @relation(fields: [projetId], references: [idProjet], onDelete: Cascade)
 }
 
 model PreteurProjet {
-  codePreteur     String   @id
+  codePreteur     String          @id
   intitule        String
   fondsRoulements FondRoulement[]
 }
@@ -182,10 +181,10 @@ model PreteurProjet {
 // ==========================================
 
 model Recette {
-  codeRecette   Int         @id @default(autoincrement())
-  datePEC       DateTime
-  dateEcheance  DateTime
-  createdAt     DateTime    @default(now())
+  codeRecette  Int      @id @default(autoincrement())
+  datePEC      DateTime
+  dateEcheance DateTime
+  createdAt    DateTime @default(now())
 
   // LIAISONS DE DÉLÉGATION (Héritage 1:1)
   avisCreditAdjudication AvisCreditAdjudication?
@@ -193,52 +192,52 @@ model Recette {
   approvisionnement      Approvisionnement?
 
   // Relations d'intégration
-  pretId          BigInt?
-  pret            Pret?         @relation(fields: [pretId], references: [numPret])
-  projetId        Int?
-  projet          Projet?       @relation("ProjetAppro", fields: [projetId], references: [idProjet])
+  pretId   BigInt?
+  pret     Pret?   @relation(fields: [pretId], references: [numPret])
+  projetId Int?
+  projet   Projet? @relation("ProjetAppro", fields: [projetId], references: [idProjet])
 
   // Traçabilité
-  createdById     Int
-  createdBy       Utilisateur   @relation("RecetteGestion", fields: [createdById], references: [idUtilisateur])
+  createdById Int
+  createdBy   Utilisateur @relation("RecetteGestion", fields: [createdById], references: [idUtilisateur])
 }
 
 model AvisCreditAdjudication {
-  idAvisCreditAdj   Int     @id @default(autoincrement())
+  idAvisCreditAdj   Int   @id @default(autoincrement())
   montantNominal    Float
   couponCouru       Float
   montantAvisCredit Float
   montantPlusValue  Float
   montantMoinsValue Float
 
-  recetteId         Int     @unique
-  recette           Recette @relation(fields: [recetteId], references: [codeRecette], onDelete: Cascade)
+  recetteId Int     @unique
+  recette   Recette @relation(fields: [recetteId], references: [codeRecette], onDelete: Cascade)
 
-  adjudicationId    Int     @unique
-  adjudication      Adjudication @relation(fields: [adjudicationId], references: [idAdjudication])
+  adjudicationId Int          @unique
+  adjudication   Adjudication @relation(fields: [adjudicationId], references: [idAdjudication])
 }
 
 model AvisCredit {
-  idAvisCredit    Int     @id @default(autoincrement())
-  montant         Float
-  taux            Int
+  idAvisCredit Int   @id @default(autoincrement())
+  montant      Float
+  taux         Int
 
-  recetteId       Int     @unique
-  recette         Recette @relation(fields: [recetteId], references: [codeRecette], onDelete: Cascade)
+  recetteId Int     @unique
+  recette   Recette @relation(fields: [recetteId], references: [codeRecette], onDelete: Cascade)
 
   bonEquipementId Int?
   bonEquipement   BonEquipement? @relation(fields: [bonEquipementId], references: [numBon])
 }
 
 model Approvisionnement {
-  idApprovis      Int     @id @default(autoincrement())
+  idApprovis      Int    @id @default(autoincrement())
   cumulApprovis   Int
   montantApprovis Float
   reference       String
   numAvance       Int
 
-  recetteId       Int     @unique
-  recette         Recette @relation(fields: [recetteId], references: [codeRecette], onDelete: Cascade)
+  recetteId Int     @unique
+  recette   Recette @relation(fields: [recetteId], references: [codeRecette], onDelete: Cascade)
 }
 
 // ==========================================
@@ -246,10 +245,10 @@ model Approvisionnement {
 // ==========================================
 
 model Depense {
-  codeDepense   Int         @id @default(autoincrement())
-  datePEC       DateTime
-  dateEcheance  DateTime
-  createdAt     DateTime    @default(now())
+  codeDepense  Int      @id @default(autoincrement())
+  datePEC      DateTime
+  dateEcheance DateTime
+  createdAt    DateTime @default(now())
 
   // LIAISONS DE DÉLÉGATION (Héritage 1:1)
   avisDebit           AvisDebit?
@@ -259,15 +258,15 @@ model Depense {
 
   // Relations d'intégration
   pretId          BigInt?
-  pret            Pret?           @relation(fields: [pretId], references: [numPret])
+  pret            Pret?          @relation(fields: [pretId], references: [numPret])
   projetId        Int?
-  projet          Projet?         @relation("ProjetOperation", fields: [projetId], references: [idProjet])
+  projet          Projet?        @relation("ProjetOperation", fields: [projetId], references: [idProjet])
   ordrePaiementId Int?
-  ordrePaiement   OrdrePaiement?  @relation("DepenseReglee", fields: [ordrePaiementId], references: [numOrdre])
+  ordrePaiement   OrdrePaiement? @relation("DepenseReglee", fields: [ordrePaiementId], references: [numOrdre])
 
   // Traçabilité
-  createdById     Int
-  createdBy       Utilisateur     @relation("DepenseGestion", fields: [createdById], references: [idUtilisateur])
+  createdById Int
+  createdBy   Utilisateur @relation("DepenseGestion", fields: [createdById], references: [idUtilisateur])
 }
 
 model AvisDebit {
@@ -279,46 +278,46 @@ model AvisDebit {
   montantCommission Float
   type              String
 
-  depenseId         Int      @unique
-  depense           Depense  @relation(fields: [depenseId], references: [codeDepense], onDelete: Cascade)
+  depenseId Int     @unique
+  depense   Depense @relation(fields: [depenseId], references: [codeDepense], onDelete: Cascade)
 }
 
 model AvisOperation {
-  idAvisOp      Int      @id @default(autoincrement())
-  numFacture    Int
-  montantDispo  Float
-  partFinancee  Float
+  idAvisOp     Int   @id @default(autoincrement())
+  numFacture   Int
+  montantDispo Float
+  partFinancee Float
 
-  depenseId     Int      @unique
-  depense       Depense  @relation(fields: [depenseId], references: [codeDepense], onDelete: Cascade)
+  depenseId Int     @unique
+  depense   Depense @relation(fields: [depenseId], references: [codeDepense], onDelete: Cascade)
 }
 
 model CommissionMaroclear {
-  idCommission  Int      @id @default(autoincrement())
-  refFacture    Int
-  montantTotal  Float
+  idCommission Int   @id @default(autoincrement())
+  refFacture   Int
+  montantTotal Float
 
-  depenseId     Int      @unique
-  depense       Depense  @relation(fields: [depenseId], references: [codeDepense], onDelete: Cascade)
+  depenseId Int     @unique
+  depense   Depense @relation(fields: [depenseId], references: [codeDepense], onDelete: Cascade)
 
-  bordereauId   Int?
-  bordereau     BordereauEmission? @relation(fields: [bordereauId], references: [numBord])
-  
-  opMaroclearId Int?     @unique
+  bordereauId Int?
+  bordereau   BordereauEmission? @relation(fields: [bordereauId], references: [numBord])
+
+  opMaroclearId Int?                   @unique
   opMaroclear   OPCommissionMaroclear? @relation(fields: [opMaroclearId], references: [idOPMaroclear])
 }
 
 model Interet {
-  idInteret     Int      @id @default(autoincrement())
-  annee         Int
-  trimestre     Int
-  tauxInteret   Float
-  nbreJour      Int
+  idInteret   Int   @id @default(autoincrement())
+  annee       Int
+  trimestre   Int
+  tauxInteret Float
+  nbreJour    Int
 
-  depenseId     Int      @unique
-  depense       Depense  @relation(fields: [depenseId], references: [codeDepense], onDelete: Cascade)
+  depenseId Int     @unique
+  depense   Depense @relation(fields: [depenseId], references: [codeDepense], onDelete: Cascade)
 
-  lignes        Ligne[]
+  lignes Ligne[]
 }
 
 // ==========================================
@@ -326,7 +325,7 @@ model Interet {
 // ==========================================
 
 model OrdrePaiement {
-  numOrdre          Int               @id @default(autoincrement())
+  numOrdre          Int      @id @default(autoincrement())
   datePEC           DateTime
   dateEcheance      DateTime
   montantCapital    Float
@@ -338,32 +337,32 @@ model OrdrePaiement {
   opCommissionMaroclear OPCommissionMaroclear?
 
   // Relations d'intégration
-  depensesReglees Depense[]   @relation("DepenseReglee")
-  
-  pretId          BigInt?
-  pret            Pret?       @relation(fields: [pretId], references: [numPret])
+  depensesReglees Depense[] @relation("DepenseReglee")
 
-  echeanceId      Int?        @unique
-  echeance        Echeance?   @relation(fields: [echeanceId], references: [idEcheance])
+  pretId BigInt?
+  pret   Pret?   @relation(fields: [pretId], references: [numPret])
+
+  echeanceId Int?      @unique
+  echeance   Echeance? @relation(fields: [echeanceId], references: [idEcheance])
 
   // Traçabilité
-  createdById     Int
-  createdBy       Utilisateur @relation("OPGestion", fields: [createdById], references: [idUtilisateur])
+  createdById Int
+  createdBy   Utilisateur @relation("OPGestion", fields: [createdById], references: [idUtilisateur])
 }
 
 model OPCommissionMaroclear {
-  idOPMaroclear   Int       @id @default(autoincrement())
-  numOP           Int
-  numLettre       Int
-  dateOP          DateTime
-  dateEmission    DateTime
-  taux            Float
+  idOPMaroclear Int      @id @default(autoincrement())
+  numOP         Int
+  numLettre     Int
+  dateOP        DateTime
+  dateEmission  DateTime
+  taux          Float
 
-  ordrePaiementId Int       @unique
+  ordrePaiementId Int           @unique
   ordrePaiement   OrdrePaiement @relation(fields: [ordrePaiementId], references: [numOrdre], onDelete: Cascade)
 
-  commission      CommissionMaroclear?
-  operations      Operation[]
+  commission CommissionMaroclear?
+  operations Operation[]
 }
 
 // ==========================================
@@ -376,19 +375,19 @@ model Adjudication {
   maturite       String
   taux           Float
   montant        Float
-  
-  avisCreditAdj  AvisCreditAdjudication?
+
+  avisCreditAdj AvisCreditAdjudication?
 }
 
 model BonEquipement {
-  numBon           Int            @id @default(autoincrement())
+  numBon           Int      @id @default(autoincrement())
   dateSouscription DateTime
   montant          Float
   datePEC          DateTime
-  
-  souscripteurs    Souscripteur[]
-  avisRejets       AvisRejet[]
-  avisCredits      AvisCredit[]
+
+  souscripteurs Souscripteur[]
+  avisRejets    AvisRejet[]
+  avisCredits   AvisCredit[]
 }
 
 model Souscripteur {
@@ -410,25 +409,25 @@ model AvisRejet {
   montant       Float
   datePEC       DateTime
   bonId         Int
-  bonEquipement BonEquipement @relation(fields: [bonId], references: [numBon])
+  bonEquipement BonEquipement @relation(fields: [bonId], references: [numBon], onDelete: Cascade)
 }
 
 model BordereauEmission {
-  numBord          Int       @id @default(autoincrement())
+  numBord          Int                   @id @default(autoincrement())
   numDecompte      Int
   montantBordereau Float
   commissions      CommissionMaroclear[]
 }
 
 model Operation {
-  idOperation   Int           @id @default(autoincrement())
-  maturite      String
-  imputation    String
-  montant_HT    Float
-  tva           Float
-  
+  idOperation Int    @id @default(autoincrement())
+  maturite    String
+  imputation  String
+  montant_HT  Float
+  tva         Float
+
   opMaroclearId Int
-  opMaroclear   OPCommissionMaroclear @relation(fields: [opMaroclearId], references: [idOPMaroclear])
+  opMaroclear   OPCommissionMaroclear @relation(fields: [opMaroclearId], references: [idOPMaroclear], onDelete: Cascade)
 }
 
 model Ligne {

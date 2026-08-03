@@ -15,6 +15,7 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
 import apiRouter from './src/index.js';
+import { globalErrorHandler } from './src/middleware/errorHandler.middleware.js';
 
 const app = express();
 
@@ -49,5 +50,8 @@ app.use('/api', apiRouter);
 app.get('/', (req, res) => {
     res.json({ message: 'Serveur TGR fonctionnel avec ES Modules !' });
 });
+
+// Middleware de gestion globale des erreurs
+app.use(globalErrorHandler);
 
 export default app;

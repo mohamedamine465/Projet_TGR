@@ -4,11 +4,15 @@ export const getAllPrets = async (filters = {}) => {
     const where = {};
     
     if (filters.numPret) {
-        where.numPret = BigInt(filters.numPret);
+        try {
+            where.numPret = BigInt(filters.numPret);
+        } catch (e) {}
     }
     
     if (filters.soldeCourant) {
-        where.soldeCourant = BigInt(filters.soldeCourant);
+        try {
+            where.soldeCourant = BigInt(filters.soldeCourant);
+        } catch (e) {}
     }
 
     if (filters.objet) {
@@ -124,10 +128,10 @@ export const updatePret = async (numPret, pretData, updatedById) => {
         updatedById
     };
 
-    if (objet) updateData.objet = objet;
+    if (objet !== undefined) updateData.objet = objet;
     if (soldeCourant !== undefined) updateData.soldeCourant = BigInt(soldeCourant);
-    if (numEmprunt) updateData.numEmprunt = numEmprunt;
-    if (preteurId) updateData.preteurId = Number(preteurId);
+    if (numEmprunt !== undefined) updateData.numEmprunt = numEmprunt;
+    if (preteurId !== undefined) updateData.preteurId = Number(preteurId);
 
     return await prisma.pret.update({
         where: { numPret: BigInt(numPret) },
