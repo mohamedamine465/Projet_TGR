@@ -2,86 +2,71 @@ import { sendSuccess, sendError } from '#shared/utils/responseHandler.js';
 import * as OrdrePaiementService from './ordre-paiement.service.js';
 
 export const getAll = async (req, res) => {
-    try {
-        /* #swagger.tags = ['Ordres de Paiement'] */
-        const ordres = await OrdrePaiementService.getAllOrdresPaiement(req.query);
-        
-        const serialized = JSON.parse(JSON.stringify(ordres, (key, value) =>
-            typeof value === 'bigint' ? value.toString() : value
-        ));
-        
-        sendSuccess(res, 200, "Liste des ordres de paiement récupérée avec succès", serialized);
-    } catch (error) {
-        sendError(res, 500, "Erreur lors de la récupération des ordres de paiement", error.message);
-    }
+
+    /* #swagger.tags = ['Ordres de Paiement'] */
+    const ordres = await OrdrePaiementService.getAllOrdresPaiement(req.query);
+    
+    const serialized = JSON.parse(JSON.stringify(ordres, (key, value) =>
+        typeof value === 'bigint' ? value.toString() : value
+    ));
+    
+    sendSuccess(res, 200, "Liste des ordres de paiement récupérée avec succès", serialized);
 };
 
 export const getById = async (req, res) => {
-    try {
-        /* #swagger.tags = ['Ordres de Paiement'] */
-        const ordre = await OrdrePaiementService.getOrdrePaiementById(req.params.numOrdre);
-        if (!ordre) return sendError(res, 404, "Ordre de paiement non trouvé");
-        
-        const serialized = JSON.parse(JSON.stringify(ordre, (key, value) =>
-            typeof value === 'bigint' ? value.toString() : value
-        ));
-        
-        sendSuccess(res, 200, "Ordre de paiement récupéré avec succès", serialized);
-    } catch (error) {
-        sendError(res, 500, "Erreur lors de la récupération de l'ordre de paiement", error.message);
-    }
+
+    /* #swagger.tags = ['Ordres de Paiement'] */
+    const ordre = await OrdrePaiementService.getOrdrePaiementById(req.params.numOrdre);
+    if (!ordre) return sendError(res, 404, "Ordre de paiement non trouvé");
+    
+    const serialized = JSON.parse(JSON.stringify(ordre, (key, value) =>
+        typeof value === 'bigint' ? value.toString() : value
+    ));
+    
+    sendSuccess(res, 200, "Ordre de paiement récupéré avec succès", serialized);
 };
 
 export const create = async (req, res) => {
-    try {
-        /* #swagger.tags = ['Ordres de Paiement'] */
-        /*  #swagger.parameters['body'] = {
-                in: 'body',
-                description: 'Données de l\'ordre de paiement à créer',
-                schema: { $ref: '#/definitions/OrdrePaiement' }
-        } */
-        const userId = req.user.idUtilisateur;
-        const ordre = await OrdrePaiementService.createOrdrePaiement(req.body, userId);
-        
-        const serialized = JSON.parse(JSON.stringify(ordre, (key, value) =>
-            typeof value === 'bigint' ? value.toString() : value
-        ));
-        
-        sendSuccess(res, 201, "Ordre de paiement créé avec succès", serialized);
-    } catch (error) {
-        sendError(res, 400, "Erreur lors de la création de l'ordre de paiement", error.message);
-    }
+
+    /* #swagger.tags = ['Ordres de Paiement'] */
+    /*  #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'Données de l\'ordre de paiement à créer',
+            schema: { $ref: '#/definitions/OrdrePaiement' }
+    } */
+    const userId = req.user.idUtilisateur;
+    const ordre = await OrdrePaiementService.createOrdrePaiement(req.body, userId);
+    
+    const serialized = JSON.parse(JSON.stringify(ordre, (key, value) =>
+        typeof value === 'bigint' ? value.toString() : value
+    ));
+    
+    sendSuccess(res, 201, "Ordre de paiement créé avec succès", serialized);
 };
 
 export const update = async (req, res) => {
-    try {
-        /* #swagger.tags = ['Ordres de Paiement'] */
-        /*  #swagger.parameters['body'] = {
-                in: 'body',
-                description: 'Données de l\'ordre de paiement à modifier',
-                schema: { $ref: '#/definitions/OrdrePaiement' }
-        } */
-        const userId = req.user.idUtilisateur;
-        const ordre = await OrdrePaiementService.updateOrdrePaiement(req.params.numOrdre, req.body, userId);
-        
-        const serialized = JSON.parse(JSON.stringify(ordre, (key, value) =>
-            typeof value === 'bigint' ? value.toString() : value
-        ));
-        
-        sendSuccess(res, 200, "Ordre de paiement mis à jour avec succès", serialized);
-    } catch (error) {
-        sendError(res, 400, "Erreur lors de la mise à jour de l'ordre de paiement", error.message);
-    }
+
+    /* #swagger.tags = ['Ordres de Paiement'] */
+    /*  #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'Données de l\'ordre de paiement à modifier',
+            schema: { $ref: '#/definitions/OrdrePaiement' }
+    } */
+    const userId = req.user.idUtilisateur;
+    const ordre = await OrdrePaiementService.updateOrdrePaiement(req.params.numOrdre, req.body, userId);
+    
+    const serialized = JSON.parse(JSON.stringify(ordre, (key, value) =>
+        typeof value === 'bigint' ? value.toString() : value
+    ));
+    
+    sendSuccess(res, 200, "Ordre de paiement mis à jour avec succès", serialized);
 };
 
 export const remove = async (req, res) => {
-    try {
-        /* #swagger.tags = ['Ordres de Paiement'] */
-        await OrdrePaiementService.deleteOrdrePaiement(req.params.numOrdre);
-        sendSuccess(res, 200, "Ordre de paiement supprimé avec succès");
-    } catch (error) {
-        sendError(res, 400, "Erreur lors de la suppression de l'ordre de paiement", error.message);
-    }
+
+    /* #swagger.tags = ['Ordres de Paiement'] */
+    await OrdrePaiementService.deleteOrdrePaiement(req.params.numOrdre);
+    sendSuccess(res, 200, "Ordre de paiement supprimé avec succès");
 };
 
 export const generateLettrePdf = async (req, res) => {
