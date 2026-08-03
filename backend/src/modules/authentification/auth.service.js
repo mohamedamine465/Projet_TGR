@@ -57,7 +57,8 @@ export const loginService = async (email, password) => {
   const token = jwt.sign(
     { 
       userId: user.idUtilisateur,
-      type: user.typeUtilisateur.libelleType 
+      typeUtilisateur: user.typeUtilisateur,
+      profils: user.profils
     },
     JWT_SECRET,
     { expiresIn: JWT_EXPIRES_IN }
@@ -131,7 +132,8 @@ export const refreshTokenService = async (oldRefreshToken) => {
   const user = await prisma.utilisateur.findFirst({
     where: { refreshToken: oldRefreshToken },
     include: {
-      typeUtilisateur: true
+      typeUtilisateur: true,
+      profils: true
     }
   });
 
@@ -150,7 +152,8 @@ export const refreshTokenService = async (oldRefreshToken) => {
   const newToken = jwt.sign(
     { 
       userId: user.idUtilisateur,
-      type: user.typeUtilisateur.libelleType 
+      typeUtilisateur: user.typeUtilisateur,
+      profils: user.profils
     },
     JWT_SECRET,
     { expiresIn: JWT_EXPIRES_IN }

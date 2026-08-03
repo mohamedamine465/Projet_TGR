@@ -22,26 +22,12 @@ export const authMiddleware = async (req, res, next) => {
     // Vérification du token
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    // Récupération de l'utilisateur avec ses relations pour avoir les droits à jour
-    const user = await prisma.utilisateur.findUnique({
-      where: { idUtilisateur: decoded.userId },
-      include: {
-        typeUtilisateur: true,
-        profils: true
-      }
-    });
-
-    if (!user) {
-      return sendError(res, 401, 'Utilisateur non trouvé ou compte supprimé.');
-    }
-
-    // Sécurité: Bloquer si l'utilisateur n'a jamais changé son mot de passe initial
-    if (!user.dateDernierAcces) {
-      return sendError(res, 403, 'Accès bloqué. Vous devez obligatoirement modifier votre mot de passe temporaire.', { first_login: true });
-    }
-
-    // Injection dans l'objet request
-    req.user = user;
+    // Injection dans l'objet request (Stateless, pas d'appel BDD)
+    req.user = {
+      idUtilisateur: decoded.userId,
+      typeUtilisateur: decoded.typeUtilisateur,
+      profils: decoded.profils
+    };
     next();
   } catch (error) {
     if (error.name === 'TokenExpiredError') {
