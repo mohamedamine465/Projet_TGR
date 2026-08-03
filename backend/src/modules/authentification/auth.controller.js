@@ -1,5 +1,5 @@
 import { loginService, changePasswordService, refreshTokenService, logoutService } from './auth.service.js';
-import { sendSuccess, sendError } from '../../shared/utils/responseHandler.js';
+import { sendSuccess, sendError } from '#shared/utils/responseHandler.js';
 
 /**
  * Contrôleur pour la connexion

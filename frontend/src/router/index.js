@@ -7,35 +7,61 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue')
+      component: () => import('@/views/LoginView.vue')
     },
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/DashboardView.vue'),
-      meta: { requiresAuth: true }
+      component: () => import('@/views/DashboardView.vue'),
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: 'dette-tresor/prets',
+          name: 'prets',
+          component: () => import('@/views/dette-tresor/PretsView.vue')
+        },
+        {
+          path: 'dette-tresor/avis-credits',
+          name: 'avis-credits',
+          component: () => import('@/views/dette-tresor/AvisCreditView.vue')
+        },
+        {
+          path: 'dette-tresor/ordres-paiement',
+          name: 'ordres-paiement',
+          component: () => import('@/views/dette-tresor/OrdrePaiementView.vue')
+        },
+        {
+          path: 'admin/utilisateurs',
+          name: 'admin-users',
+          component: () => import('@/views/AdminView.vue')
+        },
+        {
+          path: 'dette-tresor/avis-debits',
+          name: 'avis-debits',
+          component: () => import('@/views/dette-tresor/AvisDebitView.vue')
+        }
+      ]
     }
   ]
 });
 
 // Guard global pour vérifier l'authentification
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from) => {
   const authStore = useAuthStore();
   
   // Si la route requiert d'être connecté
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next({ name: 'login' });
+    return { name: 'login' };
   } 
   // Si l'utilisateur est déjà connecté et tente d'aller sur login
   else if (to.name === 'login' && authStore.isAuthenticated) {
-    next({ name: 'home' });
+    return { name: 'home' };
   } 
   else {
     // Si connecté mais l'objet user est vide, on va le chercher
     if (authStore.isAuthenticated && !authStore.user) {
         await authStore.fetchUser();
     }
-    next();
   }
 });
 

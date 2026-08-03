@@ -1,5 +1,10 @@
 import { Router } from 'express';
 import authRoutes from './modules/authentification/auth.routes.js';
+import adminRoutes from './modules/admin/admin.routes.js';
+import pretRoutes from './modules/dette-tresor/pret/pret.routes.js';
+import avisCreditRoutes from './modules/dette-tresor/avis-credit/avis-credit.routes.js';
+import ordrePaiementRoutes from './modules/dette-tresor/ordre-paiement/ordre-paiement.routes.js';
+import avisDebitRoutes from './modules/dette-tresor/avis-debit/avis-debit.routes.js';
 
 const apiRouter = Router();
 
@@ -7,12 +12,16 @@ const apiRouter = Router();
 // MONTAGE DES MODULES DE L'API
 // ==========================================
 
-// Le module d'authentification est greffé ici. 
-// Son chemin final sera /api/auth puisque ce routeur est monté sur /api dans server.js
+// Authentification
 apiRouter.use('/auth', authRoutes);
 
-// Vous ajouterez vos autres modules ici à l'avenir :
-// apiRouter.use('/dette', detteRoutes);
-// apiRouter.use('/projets', projetRoutes);
+// Administration (Gestion des utilisateurs)
+apiRouter.use('/admin', adminRoutes);
+
+// Module Dette du Trésor
+apiRouter.use('/dette-tresor/prets', pretRoutes);
+apiRouter.use('/dette-tresor/avis-credits', avisCreditRoutes);
+apiRouter.use('/dette-tresor/ordres-paiement', ordrePaiementRoutes);
+apiRouter.use('/dette-tresor/avis-debits', avisDebitRoutes);
 
 export default apiRouter;

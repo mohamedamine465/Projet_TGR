@@ -226,8 +226,8 @@ model AvisCredit {
   recetteId       Int     @unique
   recette         Recette @relation(fields: [recetteId], references: [codeRecette], onDelete: Cascade)
 
-  bonEquipementId Int
-  bonEquipement   BonEquipement @relation(fields: [bonEquipementId], references: [numBon])
+  bonEquipementId Int?
+  bonEquipement   BonEquipement? @relation(fields: [bonEquipementId], references: [numBon])
 }
 
 model Approvisionnement {
