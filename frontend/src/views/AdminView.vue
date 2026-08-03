@@ -129,7 +129,9 @@ import api from '@/services/api';
 import BaseInput from '@/components/common/BaseInput.vue';
 import BaseSelect from '@/components/common/BaseSelect.vue';
 import BaseButton from '@/components/common/BaseButton.vue';
+import { useAuthStore } from '@/stores/auth';
 
+const authStore = useAuthStore();
 const activeTab = ref('list');
 const users = ref([]);
 const types = ref([]);
@@ -181,7 +183,15 @@ const loadData = async () => {
     ]);
     users.value = resUsers.data.data;
     types.value = resMeta.data.data.types;
-    profils.value = resMeta.data.data.profils;
+    
+    // Sécurité Frontend : L'admin ne peut voir et assigner que les profils qu'il possède lui-même
+    const allProfils = resMeta.data.data.profils;
+    if (authStore.user && authStore.user.profils) {
+      const myProfilIds = authStore.user.profils.map(p => p.idProfil);
+      profils.value = allProfils.filter(p => myProfilIds.includes(p.idProfil));
+    } else {
+      profils.value = [];
+    }
   } catch (err) {
     console.error(err);
   }
