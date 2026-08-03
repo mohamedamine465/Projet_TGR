@@ -3,6 +3,7 @@ node_modules/
 frontend/dist/
 
 .env
+.env.test
 .env*.local
 
 .vscode/

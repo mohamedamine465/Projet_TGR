@@ -11,7 +11,8 @@
   },
   "scripts": {
     "dev": "node server.js",
-    "swagger": "node swagger.js"
+    "swagger": "node swagger.js",
+    "test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --runInBand"
   },
   "repository": {
     "type": "git",
