@@ -22,7 +22,7 @@ export const getTypesAndProfils = async () => {
     return { types, profils };
 };
 
-export const createUser = async (userData) => {
+export const createUser = async (userData, adminUser) => {
     const { nom, prenom, email, typeUtilisateurId, profilIds } = userData;
 
     // Vérifier le type utilisateur
@@ -31,6 +31,16 @@ export const createUser = async (userData) => {
     });
 
     if (!type) throw new Error("Type d'utilisateur introuvable.");
+
+    // Sécurité: L'admin ne peut assigner que les profils qu'il possède
+    if (adminUser && adminUser.profils) {
+        const adminProfilIds = adminUser.profils.map(p => p.idProfil);
+        const hasAllRequestedProfils = profilIds.every(id => adminProfilIds.includes(Number(id)));
+        
+        if (!hasAllRequestedProfils) {
+            throw new Error("Vous ne pouvez assigner que les profils auxquels vous avez vous-même accès.");
+        }
+    }
 
     // Règle métier : Un Agent ne peut avoir qu'un seul profil
     if (type.libelleType.toLowerCase() === 'agent' && profilIds.length > 1) {

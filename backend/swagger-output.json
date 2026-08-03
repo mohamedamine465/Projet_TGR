@@ -18,878 +18,7 @@
       "description": "Format attendu : Bearer <token>"
     }
   },
-  "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/auth/login": {
-      "post": {
-        "tags": [
-          "Authentification"
-        ],
-        "summary": "Connexion utilisateur",
-        "description": "Authentifie un utilisateur et renvoie un JWT. Gère aussi le cas de la première connexion (mot de passe provisoire).",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Email et mot de passe",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string",
-                  "example": "test@tgr.gov.ma"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "MotDePasseSecret"
-                }
-              },
-              "required": [
-                "email",
-                "password"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Connexion réussie. Retourne le JWT et les informations utilisateur.",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "token": {
-                  "type": "string",
-                  "example": "eyJhbGciOiJIUzI1NiIsInR5..."
-                },
-                "user": {
-                  "type": "object",
-                  "properties": {
-                    "idUtilisateur": {
-                      "type": "number",
-                      "example": 1
-                    },
-                    "nom": {
-                      "type": "string",
-                      "example": "Doe"
-                    },
-                    "prenom": {
-                      "type": "string",
-                      "example": "John"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "test@tgr.gov.ma"
-                    },
-                    "typeUtilisateur": {
-                      "type": "object",
-                      "properties": {
-                        "idType": {
-                          "type": "number",
-                          "example": 1
-                        },
-                        "libelleType": {
-                          "type": "string",
-                          "example": "Valideur / Administrateur"
-                        }
-                      },
-                      "required": [
-                        "idType",
-                        "libelleType"
-                      ]
-                    },
-                    "profils": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "idProfil": {
-                            "type": "number",
-                            "example": 1
-                          },
-                          "libelleProfil": {
-                            "type": "string",
-                            "example": "Dette du Tresor"
-                          }
-                        },
-                        "required": [
-                          "idProfil",
-                          "libelleProfil"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "idUtilisateur",
-                    "nom",
-                    "prenom",
-                    "email",
-                    "typeUtilisateur",
-                    "profils"
-                  ]
-                }
-              },
-              "required": [
-                "",
-                "token",
-                "user"
-              ],
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "Paramètres manquants."
-          },
-          "401": {
-            "description": "Identifiants incorrects."
-          },
-          "403": {
-            "description": "Première connexion, changement de mot de passe obligatoire.",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "first_login": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Première connexion détectée..."
-                },
-                "email": {
-                  "type": "string",
-                  "example": "test@tgr.gov.ma"
-                }
-              },
-              "required": [
-                "first_login",
-                "message",
-                "email"
-              ],
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/auth/change-password": {
-      "post": {
-        "tags": [
-          "Authentification"
-        ],
-        "summary": "Changer le mot de passe",
-        "description": "Permet de changer le mot de passe. Obligatoire après une première connexion. Peut être appelé avec ou sans JWT. Si appelé sans JWT (première connexion), email est requis.",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Email (si non authentifié), mot de passe actuel et nouveau mot de passe",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string",
-                  "example": "test@tgr.gov.ma"
-                },
-                "currentPassword": {
-                  "type": "string",
-                  "example": "ancienMotDePasse"
-                },
-                "newPassword": {
-                  "type": "string",
-                  "example": "NouveauMotDePasse8!"
-                }
-              },
-              "required": [
-                "currentPassword",
-                "newPassword"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Mot de passe modifié avec succès."
-          },
-          "400": {
-            "description": "Erreur de validation des champs ou mot de passe identique."
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/api/auth/refresh-token": {
-      "post": {
-        "tags": [
-          "Authentification"
-        ],
-        "summary": "Rafraîchir le token d\\'accès",
-        "description": "Utilise le refresh token stocké dans les cookies (HttpOnly) pour obtenir un nouveau token.",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/auth/logout": {
-      "post": {
-        "tags": [
-          "Authentification"
-        ],
-        "summary": "Déconnexion",
-        "description": "Invalide le refresh token et supprime le cookie.",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/api/auth/me": {
-      "get": {
-        "tags": [
-          "Authentification"
-        ],
-        "summary": "Obtenir le profil de l\\'utilisateur connecté",
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/api/admin/users": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/admin/metadata": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/admin/users/{id}/reset-password": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/dette-tresor/prets/preteurs": {
-      "get": {
-        "tags": [
-          "Prêts"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Prêts"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/dette-tresor/prets/preteurs/{codeCategorie}": {
-      "put": {
-        "tags": [
-          "Prêts"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "codeCategorie",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Prêts"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "codeCategorie",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/dette-tresor/prets/echeanciers": {
-      "post": {
-        "tags": [
-          "Prêts"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "pretId": {
-                  "example": "any"
-                },
-                "tranche": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/dette-tresor/prets/echeanciers/{codeEcheancier}/lignes": {
-      "post": {
-        "tags": [
-          "Prêts"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "codeEcheancier",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/dette-tresor/prets/": {
-      "get": {
-        "tags": [
-          "Prêts"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Prêts"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Données du prêt à créer",
-            "schema": {
-              "$ref": "#/definitions/Pret"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/dette-tresor/prets/{numPret}": {
-      "get": {
-        "tags": [
-          "Prêts"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "numPret",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      },
-      "put": {
-        "tags": [
-          "Prêts"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "numPret",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Données du prêt à modifier",
-            "schema": {
-              "$ref": "#/definitions/Pret"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Prêts"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "numPret",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/dette-tresor/avis-credits/": {
-      "get": {
-        "tags": [
-          "Avis de Crédit"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Avis de Crédit"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Données de l'avis de crédit à créer",
-            "schema": {
-              "$ref": "#/definitions/AvisCredit"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/dette-tresor/avis-credits/{codeRecette}": {
-      "get": {
-        "tags": [
-          "Avis de Crédit"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "codeRecette",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Avis de Crédit"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "codeRecette",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Données de l'avis de crédit à modifier",
-            "schema": {
-              "$ref": "#/definitions/AvisCredit"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Avis de Crédit"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "codeRecette",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/dette-tresor/ordres-paiement/": {
-      "get": {
-        "tags": [
-          "Ordres de Paiement"
-        ],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Ordres de Paiement"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Données de l'ordre de paiement à créer",
-            "schema": {
-              "$ref": "#/definitions/OrdrePaiement"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/dette-tresor/ordres-paiement/{numOrdre}": {
-      "get": {
-        "tags": [
-          "Ordres de Paiement"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "numOrdre",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Ordres de Paiement"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "numOrdre",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Données de l'ordre de paiement à modifier",
-            "schema": {
-              "$ref": "#/definitions/OrdrePaiement"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Ordres de Paiement"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "numOrdre",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "Pret": {
       "type": "object",
@@ -942,35 +71,171 @@
       "properties": {
         "datePEC": {
           "type": "string",
-          "example": "2026-07-27"
+          "example": "2024-05-10T00:00:00Z"
         },
         "dateEcheance": {
           "type": "string",
-          "example": "2026-12-31"
+          "example": "2024-06-10T00:00:00Z"
         },
         "montantCapital": {
           "type": "number",
-          "example": 100000
+          "example": 3000
         },
         "montantInteret": {
           "type": "number",
-          "example": 5000
+          "example": 400
         },
         "montantCommission": {
           "type": "number",
-          "example": 200
+          "example": 60
         },
         "numlettre": {
           "type": "number",
           "example": 405
         },
         "pretId": {
-          "type": "string",
-          "example": "123456"
+          "type": "number",
+          "example": 100200
         },
         "echeanceId": {
           "type": "number",
           "example": 1
+        }
+      }
+    },
+    "AvisDebit": {
+      "type": "object",
+      "properties": {
+        "datePEC": {
+          "type": "string",
+          "example": "2024-05-15T00:00:00Z"
+        },
+        "dateEcheance": {
+          "type": "string",
+          "example": "2024-06-15T00:00:00Z"
+        },
+        "pretId": {
+          "type": "number",
+          "example": 100200
+        },
+        "dateDepense": {
+          "type": "string",
+          "example": "2024-05-16T00:00:00Z"
+        },
+        "taux": {
+          "type": "number",
+          "example": 2.5
+        },
+        "montantCapital": {
+          "type": "number",
+          "example": 5000
+        },
+        "montantInteret": {
+          "type": "number",
+          "example": 250
+        },
+        "montantCommission": {
+          "type": "number",
+          "example": 50
+        },
+        "type": {
+          "type": "string",
+          "example": "Frais bancaires"
+        }
+      }
+    },
+    "Projet": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "DON"
+        },
+        "gestion": {
+          "type": "number",
+          "example": 2025
+        },
+        "datePEC": {
+          "type": "string",
+          "example": "2025-01-01"
+        },
+        "numDon": {
+          "type": "number",
+          "example": 202
+        },
+        "objetDon": {
+          "type": "string",
+          "example": "Don pour santé"
+        },
+        "numContrat": {
+          "type": "number",
+          "example": 303
+        },
+        "preteurId": {
+          "type": "string",
+          "example": "BAM"
+        }
+      }
+    },
+    "Approvisionnement": {
+      "type": "object",
+      "properties": {
+        "projetId": {
+          "type": "number",
+          "example": 1
+        },
+        "datePEC": {
+          "type": "string",
+          "example": "2025-01-01"
+        },
+        "dateEcheance": {
+          "type": "string",
+          "example": "2025-02-01"
+        },
+        "montantApprovis": {
+          "type": "number",
+          "example": 10000
+        },
+        "cumulApprovis": {
+          "type": "number",
+          "example": 2
+        },
+        "numAvance": {
+          "type": "number",
+          "example": 2
+        },
+        "reference": {
+          "type": "string",
+          "example": "REF-999"
+        }
+      }
+    },
+    "AvisOperation": {
+      "type": "object",
+      "properties": {
+        "projetId": {
+          "type": "number",
+          "example": 1
+        },
+        "datePEC": {
+          "type": "string",
+          "example": "2025-01-01"
+        },
+        "dateEcheance": {
+          "type": "string",
+          "example": "2025-02-01"
+        },
+        "numFacture": {
+          "type": "number",
+          "example": 98765
+        },
+        "montantDispo": {
+          "type": "number",
+          "example": 50000
+        },
+        "partFinancee": {
+          "type": "number",
+          "example": 10000
         }
       }
     }

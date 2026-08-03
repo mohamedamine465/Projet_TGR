@@ -1,14 +1,12 @@
 import { Router } from 'express';
 import { getUsers, getMetadata, createUser, resetPassword } from './admin.controller.js';
-import { authMiddleware } from '#middleware/auth.middleware.js';
+import { authMiddleware, requireType } from '#middleware/auth.middleware.js';
 
 const router = Router();
 
-// Routes protégées par authentification
+// Routes protégées par authentification et restreintes aux Administrateurs
 router.use(authMiddleware);
-
-// Idéalement, il faudrait un middleware `requireAdmin` ici. 
-// Pour le prototype, on fait confiance à l'UI.
+router.use(requireType('Administrateur'));
 
 router.get('/users', getUsers);
 router.get('/metadata', getMetadata);
