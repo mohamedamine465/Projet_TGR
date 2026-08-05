@@ -18,6 +18,7 @@ beforeEach(async () => {
     // Réinsérer les données minimales (Types, Profils)
     const typeAdmin = await prisma.typeUtilisateur.create({ data: { libelleType: 'Administrateur' } });
     const profilAdmin = await prisma.profil.create({ data: { libelleProfil: 'Dette du Tresor' } });
+    const profilDetteInt = await prisma.profil.create({ data: { libelleProfil: 'Dette Interieure' } });
 
     // Créer un admin factice pour les tests avec un mot de passe non temporaire (dateDernierAcces n'est pas null)
     const user = await prisma.utilisateur.create({
@@ -28,12 +29,16 @@ beforeEach(async () => {
             password: 'hash',
             dateDernierAcces: new Date(),
             typeUtilisateurId: typeAdmin.idType,
-            profils: { connect: [{ idProfil: profilAdmin.idProfil }] }
+            profils: { connect: [{ idProfil: profilAdmin.idProfil }, { idProfil: profilDetteInt.idProfil }] }
         }
     });
 
     // Générer un token pour cet admin
-    const token = jwt.sign({ userId: user.idUtilisateur }, process.env.JWT_SECRET || 'TEST_SECRET', { expiresIn: '1h' });
+    const token = jwt.sign({ 
+        userId: user.idUtilisateur,
+        typeUtilisateur: { libelleType: 'Administrateur' },
+        profils: [{ libelleProfil: 'Dette du Tresor' }, { libelleProfil: 'Dette Interieure' }]
+    }, process.env.JWT_SECRET || 'TEST_SECRET', { expiresIn: '1h' });
     global.testToken = token;
     global.testUserId = user.idUtilisateur;
 });
