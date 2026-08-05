@@ -11,7 +11,7 @@ describe('Module Encaissements (Avances / Approvisionnements)', () => {
           user: { 
             nom: 'Admin', 
             prenom: 'Test', 
-            profils: [{ libelleProfil: 'Programme MEDA' }] 
+            profils: [{ libelleProfil: 'Projets' }] 
           } 
         } 
       }

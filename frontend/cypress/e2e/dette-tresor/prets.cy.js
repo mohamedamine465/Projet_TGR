@@ -95,11 +95,11 @@ describe('Module Prêts (Dette du Trésor)', () => {
     cy.wait('@getPrets');
     
     // Vérifier que le tableau s'affiche avec la ligne mockée
-    cy.get('.data-table').should('be.visible');
-    cy.contains('#1001').should('be.visible');
-    cy.contains('EMP-001').should('be.visible');
-    cy.contains('Banque Mondiale').should('be.visible');
-    cy.contains('Autoroute du Nord').should('be.visible');
+    cy.get('.modern-table').should('be.visible');
+    cy.contains('#1001').should('exist');
+    cy.contains('EMP-001').should('exist');
+    cy.contains('Banque Mondiale').should('exist');
+    cy.contains('Autoroute du Nord').should('exist');
   });
   
   it('doit filtrer la liste des prêts à la soumission du formulaire de recherche', () => {

@@ -11,7 +11,7 @@ describe('Module Justificatifs (Avis Operation)', () => {
           user: { 
             nom: 'Admin', 
             prenom: 'Test', 
-            profils: [{ libelleProfil: 'Programme MEDA' }] 
+            profils: [{ libelleProfil: 'Projets' }] 
           } 
         } 
       }

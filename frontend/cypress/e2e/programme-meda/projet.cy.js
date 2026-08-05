@@ -13,7 +13,7 @@ describe('Module Projets (Programme MEDA & FR)', () => {
           user: { 
             nom: 'Admin', 
             prenom: 'Test', 
-            profils: [{ libelleProfil: 'Programme MEDA' }] 
+            profils: [{ libelleProfil: 'Projets' }] 
           } 
         } 
       }

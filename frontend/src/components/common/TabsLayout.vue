@@ -15,11 +15,11 @@
     </div>
     
     <div class="tab-content">
-      <template v-for="tab in tabs" :key="`content-${tab.id}`">
-        <div v-if="activeTab === tab.id" class="tab-pane">
-          <slot :name="tab.id"></slot>
+      <transition name="fade-slide" mode="out-in">
+        <div :key="activeTab" class="tab-pane">
+          <slot :name="activeTab"></slot>
         </div>
-      </template>
+      </transition>
     </div>
   </div>
 </template>
@@ -68,65 +68,83 @@ const setActiveTab = (tabId) => {
 
 <style scoped>
 .module-view {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  background-color: var(--surface, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   min-height: 500px;
+  border: 1px solid var(--border-color, #e2e8f0);
 }
 
 .tabs-header {
-  background-color: #f8fafc;
-  padding: 20px 20px 0 20px;
-  border-bottom: 1px solid #e2e8f0;
+  background-color: var(--surface, #ffffff);
+  padding: 25px 25px 0 25px;
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
 }
 
 .tabs-header h2 {
-  margin: 0 0 15px 0;
-  color: #1e293b;
-  font-size: 1.4rem;
+  margin: 0 0 20px 0;
+  color: var(--text-dark, #1e293b);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
 .tabs {
   display: flex;
-  gap: 2px;
+  gap: 30px;
 }
 
 .tab-btn {
-  padding: 10px 20px;
-  background-color: #e2e8f0;
-  border: 1px solid #e2e8f0;
-  border-bottom: none;
-  border-radius: 6px 6px 0 0;
+  padding: 0 0 12px 0;
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
   cursor: pointer;
   font-weight: 600;
-  color: #64748b;
-  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  color: var(--text-muted, #64748b);
+  transition: all 0.3s ease;
+  position: relative;
+  top: 1px;
 }
 
 .tab-btn:hover {
-  background-color: #f1f5f9;
-  color: #334155;
+  color: var(--text-dark, #1e293b);
 }
 
 .tab-btn.active {
-  background-color: #ffffff;
-  color: #ea580c;
-  border-color: #e2e8f0;
-  border-bottom: 1px solid #ffffff;
-  margin-bottom: -1px;
+  color: var(--primary, #ea580c);
+  border-bottom: 3px solid var(--primary, #ea580c);
 }
 
 .tab-content {
-  padding: 20px;
+  padding: 25px;
   flex: 1;
+  background-color: var(--bg-color, #f8fafc);
 }
 
 .tab-pane h3 {
   margin-top: 0;
-  color: #334155;
-  font-size: 1.1rem;
+  color: var(--text-dark, #1e293b);
+  font-size: 1.15rem;
+}
+
+/* Transitions */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(15px);
+}
+
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-15px);
 }
 </style>
