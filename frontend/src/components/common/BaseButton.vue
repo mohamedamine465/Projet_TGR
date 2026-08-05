@@ -64,11 +64,11 @@ defineEmits(['click']);
 }
 
 .btn-primary {
-  background-color: #ea580c;
+  background-color: var(--primary);
   color: #ffffff;
 }
 .btn-primary:hover:not(:disabled) {
-  background-color: #c2410c;
+  background-color: var(--primary-hover);
 }
 
 .btn-secondary {

@@ -48,7 +48,7 @@
 
     <div v-else>
       <div class="table-container">
-        <table class="data-table">
+        <table class="modern-table">
           <thead>
             <tr>
               <th>Numéro Prêt</th>
@@ -149,7 +149,7 @@
         <div v-else class="schedule-details">
           <div v-for="echeancier in currentSchedulePret?.echeanciers" :key="echeancier.codeEcheancier" class="echeancier-section">
             <h4>Tranche N° {{ echeancier.tranche }}</h4>
-            <table class="data-table">
+            <table class="modern-table">
               <thead>
                 <tr>
                   <th>Date</th>
@@ -446,18 +446,18 @@ const formatMontant = (montant) => {
   overflow-x: auto;
 }
 
-.data-table {
+.modern-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.data-table th, .data-table td {
+.modern-table th, .modern-table td {
   padding: 14px 15px;
   text-align: left;
   border-bottom: 1px solid #e2e8f0;
 }
 
-.data-table th {
+.modern-table th {
   background-color: #f8fafc;
   font-weight: 600;
   color: #475569;
@@ -465,12 +465,12 @@ const formatMontant = (montant) => {
   text-transform: uppercase;
 }
 
-.data-table td {
+.modern-table td {
   color: #334155;
   font-size: 0.9rem;
 }
 
-.data-table tr:hover {
+.modern-table tr:hover {
   background-color: #f8fafc;
 }
 
@@ -486,7 +486,7 @@ const formatMontant = (montant) => {
   text-align: right !important;
 }
 
-.data-table th:nth-child(7) {
+.modern-table th:nth-child(7) {
   text-align: right;
 }
 

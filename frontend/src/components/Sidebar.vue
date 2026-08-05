@@ -60,6 +60,60 @@
         </ul>
       </li>
 
+      <!-- Dette Intérieure -->
+      <li v-if="hasProfil('Dette Interieure')" class="nav-module">
+        <div class="module-title">Dette Intérieure</div>
+        <ul class="sub-nav-list">
+          <!-- Adjudications -->
+          <li class="nav-item-container">
+            <div class="nav-item" @click="toggleMenu('adjudications')" :class="{ 'expanded': isExpanded('adjudications') }">
+              <span>Adjudications</span>
+              <span class="arrow">{{ isExpanded('adjudications') ? '▼' : '▶' }}</span>
+            </div>
+            <ul v-show="isExpanded('adjudications')" class="nested-list">
+              <li><router-link to="/dette-interieure/adjudications?tab=creer" class="nested-item" :class="{ active: isActiveTab('/dette-interieure/adjudications', 'creer') }">Créer Adjudication</router-link></li>
+              <li><router-link to="/dette-interieure/adjudications?tab=consulter" class="nested-item" :class="{ active: isActiveTab('/dette-interieure/adjudications', 'consulter') }">Consulter les Adjudications</router-link></li>
+            </ul>
+          </li>
+
+          <!-- Bons d'Équipement -->
+          <li class="nav-item-container">
+            <div class="nav-item" @click="toggleMenu('bonsEquipement')" :class="{ 'expanded': isExpanded('bonsEquipement') }">
+              <span>Bons d'Équipement</span>
+              <span class="arrow">{{ isExpanded('bonsEquipement') ? '▼' : '▶' }}</span>
+            </div>
+            <ul v-show="isExpanded('bonsEquipement')" class="nested-list">
+              <li><router-link to="/dette-interieure/bons-equipement?tab=creer" class="nested-item" :class="{ active: isActiveTab('/dette-interieure/bons-equipement', 'creer') }">Créer Bon</router-link></li>
+              <li><router-link to="/dette-interieure/bons-equipement?tab=consulter" class="nested-item" :class="{ active: isActiveTab('/dette-interieure/bons-equipement', 'consulter') }">Consulter les Bons</router-link></li>
+            </ul>
+          </li>
+
+          <!-- Commissions -->
+          <li class="nav-item-container">
+            <div class="nav-item" @click="toggleMenu('commissionsDI')" :class="{ 'expanded': isExpanded('commissionsDI') }">
+              <span>Commissions</span>
+              <span class="arrow">{{ isExpanded('commissionsDI') ? '▼' : '▶' }}</span>
+            </div>
+            <ul v-show="isExpanded('commissionsDI')" class="nested-list">
+              <li><router-link to="/dette-interieure/commissions?tab=creer" class="nested-item" :class="{ active: isActiveTab('/dette-interieure/commissions', 'creer') }">Créer Commission</router-link></li>
+              <li><router-link to="/dette-interieure/commissions?tab=consulter" class="nested-item" :class="{ active: isActiveTab('/dette-interieure/commissions', 'consulter') }">Consulter Commissions</router-link></li>
+            </ul>
+          </li>
+
+          <!-- Intérêts -->
+          <li class="nav-item-container">
+            <div class="nav-item" @click="toggleMenu('interets')" :class="{ 'expanded': isExpanded('interets') }">
+              <span>Intérêts</span>
+              <span class="arrow">{{ isExpanded('interets') ? '▼' : '▶' }}</span>
+            </div>
+            <ul v-show="isExpanded('interets')" class="nested-list">
+              <li><router-link to="/dette-interieure/interets?tab=creer" class="nested-item" :class="{ active: isActiveTab('/dette-interieure/interets', 'creer') }">Créer Intérêt</router-link></li>
+              <li><router-link to="/dette-interieure/interets?tab=consulter" class="nested-item" :class="{ active: isActiveTab('/dette-interieure/interets', 'consulter') }">Consulter Intérêts</router-link></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
       <!-- Programme MEDA et fonds de roulement -->
       <li v-if="hasProfil('Projets')" class="nav-module">
         <div class="module-title">Programme MEDA et FR</div>
@@ -119,7 +173,7 @@ import { useAuthStore } from '../stores/auth';
 
 const authStore = useAuthStore();
 const route = useRoute();
-const expandedMenus = ref(['prets', 'projets', 'approvisionnements', 'avisOperations']); 
+const expandedMenus = ref(['prets', 'projets', 'approvisionnements', 'avisOperations', 'adjudications', 'bonsEquipement', 'commissionsDI', 'interets']); 
 
 const hasProfil = (profilName) => {
   if (!authStore.user) return false;

@@ -76,9 +76,9 @@ describe('Login Page (Authentification)', () => {
 
     cy.wait('@loginSuccess');
 
-    // Vérifier que le token est bien stocké dans le localStorage
+    // Vérifier que le token N'EST PLUS stocké dans le localStorage (Sécurité XSS)
     cy.window().then((window) => {
-      expect(window.localStorage.getItem('access_token')).to.eq('fake-jwt-token');
+      expect(window.localStorage.getItem('access_token')).to.be.null;
     });
 
     // Vérifier la redirection
