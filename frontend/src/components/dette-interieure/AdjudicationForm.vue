@@ -108,25 +108,11 @@ const submitForm = async () => {
   errorMessage.value = '';
   
   try {
-    const token = localStorage.getItem('access_token');
-    const response = await fetch('/api/dette-interieure/adjudications', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        ...formData,
-        taux: parseFloat(formData.taux),
-        montant: parseFloat(formData.montant)
-      })
+    const response = await api.post('/dette-interieure/adjudications', {
+      ...formData,
+      taux: parseFloat(formData.taux),
+      montant: parseFloat(formData.montant)
     });
-    
-    const result = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(result.error || 'Erreur lors de la création de l\'adjudication');
-    }
     
     successMessage.value = 'L\'adjudication a été enregistrée avec succès.';
     setTimeout(() => { resetForm(); }, 3000);

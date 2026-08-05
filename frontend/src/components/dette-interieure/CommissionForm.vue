@@ -71,25 +71,10 @@ const submitForm = async () => {
   errorMessage.value = '';
   
   try {
-    const token = localStorage.getItem('access_token');
-    const response = await fetch('/api/dette-interieure/commissions/bordereaux', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        ...formData,
-        numDecompte: parseInt(formData.numDecompte, 10),
-        montantBordereau: parseFloat(formData.montantBordereau)
-      })
+    await api.post('/dette-interieure/commissions', {
+      ...formData,
+      montantTotal: parseFloat(formData.montantTotal)
     });
-    
-    const result = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(result.error || 'Erreur lors de la création du bordereau');
-    }
     
     successMessage.value = 'Le bordereau a été enregistré avec succès.';
     setTimeout(() => { resetForm(); }, 3000);

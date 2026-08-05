@@ -104,27 +104,13 @@ const submitForm = async () => {
   errorMessage.value = '';
   
   try {
-    const token = localStorage.getItem('access_token');
-    const response = await fetch('/api/dette-interieure/interets', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        ...formData,
-        annee: parseInt(formData.annee, 10),
-        trimestre: parseInt(formData.trimestre, 10),
-        nbreJour: parseInt(formData.nbreJour, 10),
-        tauxInteret: parseFloat(formData.tauxInteret)
-      })
+    await api.post('/dette-interieure/interets', {
+      ...formData,
+      annee: parseInt(formData.annee, 10),
+      trimestre: parseInt(formData.trimestre, 10),
+      nbreJour: parseInt(formData.nbreJour, 10),
+      tauxInteret: parseFloat(formData.tauxInteret)
     });
-    
-    const result = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(result.error || 'Erreur lors de la création de l\'intérêt');
-    }
     
     successMessage.value = 'L\'intérêt a été enregistré avec succès.';
     setTimeout(() => { resetForm(); }, 3000);

@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { prisma } from '#config/db.js';
+import { UnauthorizedError, BadRequestError } from '#shared/utils/customErrors.js';
 const JWT_SECRET = process.env.JWT_SECRET;
 
 if (!JWT_SECRET) {
@@ -23,13 +24,13 @@ export const loginService = async (email, password) => {
   });
 
   if (!user) {
-    throw new Error('Identifiants incorrects.');
+    throw new UnauthorizedError('Identifiants incorrects.');
   }
 
   // Vérification sécurisée du mot de passe avec bcrypt
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throw new Error('Identifiants incorrects.');
+    throw new UnauthorizedError('Identifiants incorrects.');
   }
 
   // Logique Métier TGR : Première connexion détectée (mot de passe provisoire)
@@ -57,6 +58,9 @@ export const loginService = async (email, password) => {
   const token = jwt.sign(
     { 
       userId: user.idUtilisateur,
+      nom: user.nom,
+      prenom: user.prenom,
+      email: user.email,
       typeUtilisateur: user.typeUtilisateur,
       profils: user.profils
     },
@@ -138,7 +142,7 @@ export const refreshTokenService = async (oldRefreshToken) => {
   });
 
   if (!user) {
-    throw new Error('Refresh token invalide.');
+    throw new UnauthorizedError('Refresh token invalide.');
   }
 
   // Génération d\'un nouveau Refresh Token pour la rotation (sécurité supplémentaire)
@@ -152,6 +156,9 @@ export const refreshTokenService = async (oldRefreshToken) => {
   const newToken = jwt.sign(
     { 
       userId: user.idUtilisateur,
+      nom: user.nom,
+      prenom: user.prenom,
+      email: user.email,
       typeUtilisateur: user.typeUtilisateur,
       profils: user.profils
     },

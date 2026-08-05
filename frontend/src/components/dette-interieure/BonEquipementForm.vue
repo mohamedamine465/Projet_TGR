@@ -82,24 +82,10 @@ const submitForm = async () => {
   errorMessage.value = '';
   
   try {
-    const token = localStorage.getItem('access_token');
-    const response = await fetch('/api/dette-interieure/bons-equipement', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        ...formData,
-        montant: parseFloat(formData.montant)
-      })
+    await api.post('/dette-interieure/bons-equipement', {
+      ...formData,
+      montant: parseFloat(formData.montant)
     });
-    
-    const result = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(result.error || 'Erreur lors de la création du bon d\'équipement');
-    }
     
     successMessage.value = 'Le bon d\'équipement a été enregistré avec succès.';
     setTimeout(() => { resetForm(); }, 3000);

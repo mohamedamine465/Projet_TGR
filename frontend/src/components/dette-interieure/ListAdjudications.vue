@@ -72,16 +72,8 @@ const fetchData = async () => {
   error.value = null;
   
   try {
-    const token = localStorage.getItem('access_token');
-    const response = await fetch('/api/dette-interieure/adjudications', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    
-    if (!response.ok) throw new Error('Erreur de chargement');
-    
-    const result = await response.json();
+    const response = await api.get('/dette-interieure/adjudications');
+    const result = response.data;
     adjudications.value = result.data || [];
   } catch (err) {
     error.value = err.message || 'Impossible de récupérer les adjudications.';
